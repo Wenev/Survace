@@ -1,0 +1,10 @@
+go 1.24.3
+
+use (
+	./backend/brainrot-service
+	./backend/galactus
+	./backend/notification-service
+	./backend/social-service
+	./backend/stream-service
+	./proto
+)
