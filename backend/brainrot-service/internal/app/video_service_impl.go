@@ -215,20 +215,7 @@ func (v *VideoServiceImpl) DeleteUserVideo(ctx context.Context, userId int32) (i
 	return 0, "Successfully Delete User Video", nil
 }
 
-func cacheKey(userId *int32, limit, offset int) string {
-	if userId == nil {
-		return fmt.Sprintf("feed:loggedout:%d:%d", limit, offset)
-	}
-	return fmt.Sprintf("feed:user:%d:%d:%d", *userId, limit, offset)
-}
-
 func (v *VideoServiceImpl) GetRandomFeed(ctx context.Context, userId *int32, limit int, offset int) (int32, string, []*domain.Video, []int64, []int64, []int32, error) {
-	//key := cacheKey(userId, limit, offset)
-	//var cached []*domain.Video
-	//if err := v.cache.Get(key, &cached); err == nil && cached != nil {
-	//	return int32(codes.OK), "Feed fetched from cache", cached, nil, nil, nil, nil
-	//}
-
 	newPopular, err := v.videoRepo.FindNewAndPopular(ctx, limit*2, offset)
 	if err != nil {
 		return int32(codes.Internal), "Failed to fetch new/popular videos", nil, nil, nil, nil, err
@@ -259,7 +246,6 @@ func (v *VideoServiceImpl) GetRandomFeed(ctx context.Context, userId *int32, lim
 	if feed == nil {
 		feed = []*domain.Video{}
 	}
-	//_ = v.cache.Set(key, feed, 2*time.Minute)
 	if len(feed) == 0 {
 		return int32(codes.Internal), "mamasita", []*domain.Video{}, []int64{}, []int64{}, []int32{}, nil
 	}
@@ -294,12 +280,6 @@ func (v *VideoServiceImpl) GetRandomFeed(ctx context.Context, userId *int32, lim
 }
 
 func (v *VideoServiceImpl) GetRandomFeedLoggedOut(ctx context.Context, limit int, offset int) (int32, string, []*domain.Video, []int64, []int64, []int32, error) {
-	//key := cacheKey(nil, limit, offset)
-	//var cached []*domain.Video
-	//if err := v.cache.Get(key, &cached); err == nil && cached != nil {
-	//	return int32(codes.OK), "Feed fetched from cache", cached, nil, nil, nil, nil
-	//}
-
 	newPopular, err := v.videoRepo.FindNewAndPopular(ctx, limit*2, offset)
 	if err != nil {
 		return int32(codes.Internal), "Failed to fetch new/popular videos", nil, nil, nil, nil, err
@@ -316,8 +296,6 @@ func (v *VideoServiceImpl) GetRandomFeedLoggedOut(ctx context.Context, limit int
 	if feed == nil {
 		feed = []*domain.Video{}
 	}
-	//log.Print("AKU MAUUUUUUUFJFJf")
-	//_ = v.cache.Set(key, feed, 2*time.Minute)
 	if len(feed) == 0 {
 		return int32(codes.Internal), "mamsita", []*domain.Video{}, []int64{}, []int64{}, []int32{}, nil
 	}
@@ -385,21 +363,6 @@ func (v *VideoServiceImpl) SearchVideo(ctx context.Context, query string, thresh
 			fmt.Errorf("empty search query")
 	}
 
-	// Use versioned cache key
-	//const versionKey = "search:video:version"
-	//var version int64 = 1
-	//_ = v.cache.Get(versionKey, &version)
-	//cacheKey := fmt.Sprintf("search:video:%d:%s:%.2f:%d:%d", version, query, threshold, limit, offset)
-	//var cachedResult struct {
-	//	Videos        []*domain.Video
-	//	LikeCounts    []int64
-	//	CommentCounts []int64
-	//	ViewCounts    []int32
-	//}
-	//if err := v.cache.Get(cacheKey, &cachedResult); err == nil && cachedResult.Videos != nil {
-	//	return int32(codes.OK), "Videos found successfully (from cache)", cachedResult.Videos, cachedResult.LikeCounts, cachedResult.CommentCounts, cachedResult.ViewCounts, nil
-	//}
-
 	allVideos, err := v.videoRepo.FindNewAndPopular(ctx, 1000, 1) // 0 means no limit, fetch all videos
 	if err != nil {
 		return int32(codes.Internal), "Failed to fetch videos", nil, nil, nil, nil, err
@@ -407,7 +370,6 @@ func (v *VideoServiceImpl) SearchVideo(ctx context.Context, query string, thresh
 	log.Print(allVideos)
 	log.Print("save it")
 	filteredVideos := helper.FilterVideosByJaroDistance(allVideos, query, threshold)
-	//log.Print(filteredVideos)
 	start := offset
 	end := offset + limit
 	if start >= len(filteredVideos) {
@@ -427,8 +389,6 @@ func (v *VideoServiceImpl) SearchVideo(ctx context.Context, query string, thresh
 		if err != nil {
 			return int32(codes.Internal), "Failed to count likes", nil, nil, nil, nil, err
 		}
-		//_ = v.cache.Set(likeCacheKey, likeCount, 2*time.Minute)
-
 		commentCount, err := v.commentRepo.CountByVideoId(ctx, video.ID)
 		if err != nil {
 			return int32(codes.Internal), "Failed to count comments", nil, nil, nil, nil, err
@@ -443,19 +403,6 @@ func (v *VideoServiceImpl) SearchVideo(ctx context.Context, query string, thresh
 		commentCounts[i] = commentCount
 		viewCounts[i] = int32(viewCount64)
 	}
-
-	//cacheValue := struct {
-	//	Videos        []*domain.Video
-	//	LikeCounts    []int64
-	//	CommentCounts []int64
-	//	ViewCounts    []int32
-	//}{
-	//	Videos:        pagedVideos,
-	//	LikeCounts:    likeCounts,
-	//	CommentCounts: commentCounts,
-	//	ViewCounts:    viewCounts,
-	//}
-	//_ = v.cache.Set(cacheKey, cacheValue, 2*time.Minute)
 
 	return int32(codes.OK), "Videos found successfully", pagedVideos, likeCounts, commentCounts, viewCounts, nil
 }
