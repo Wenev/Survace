@@ -35,8 +35,7 @@ func main() {
 	}
 	address, err := grpc.NewGalactusClient("galactus:3000", "notification-service:3004")
 	if err != nil {
-		log.Printf("Invalid port: %v", err)
-		port = 3000
+		log.Fatalf("Failed to connect to galactus client: %v", err)
 	}
 	server := grpc.NewGrpcServer(port, chatService, followService, address)
 	defer server.Stop()
