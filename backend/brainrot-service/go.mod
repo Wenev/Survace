@@ -3,11 +3,11 @@ module github.com/Wenev/Survace/brainrot-service
 go 1.24.3
 
 require (
-	github.com/Wenev/Survace/proto v0.0.0-00010101000000-000000000000
+	github.com/Wenev/Survace/proto v0.1.0
 	github.com/bradfitz/gomemcache v0.0.0-20250403215159-8d39553ac7cf
 	github.com/minio/minio-go/v7 v7.0.92
 	google.golang.org/grpc v1.72.2
-	google.golang.org/protobuf v1.36.5
+	google.golang.org/protobuf v1.36.6
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.30.0
 )
