@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/helper"
 	"github.com/Wenev/Survace/brainrot-service/ports/out"
@@ -15,14 +14,14 @@ import (
 type LikeServiceImpl struct {
 	likeRepo  out.LikeRepository
 	videoRepo out.VideoRepository
-	cache     *cache.MemcachedConnection
+	cache     out.CacheRepository
 }
 
-func NewLikeService(likeRepo out.LikeRepository, videoRepo out.VideoRepository) *LikeServiceImpl {
+func NewLikeService(likeRepo out.LikeRepository, videoRepo out.VideoRepository, cache out.CacheRepository) *LikeServiceImpl {
 	return &LikeServiceImpl{
 		likeRepo:  likeRepo,
 		videoRepo: videoRepo,
-		cache:     cache.CacheConnection(),
+		cache:     cache,
 	}
 }
 

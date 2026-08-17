@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Wenev/Survace/brainrot-service/config"
 	"github.com/Wenev/Survace/brainrot-service/internal/adapters/inbound/grpc"
+	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
 	database "github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/db"
 	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/minio"
 	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/repository"
@@ -32,6 +33,8 @@ func main() {
 		return
 	}
 
+	cacheConn := cache.CacheConnection()
+
 	commentRepository := repository.NewCommentRepository(db)
 	likeRepository := repository.NewLikeRepository(db)
 	videoRepository := repository.NewVideoRepository(db, minioClient)
@@ -57,13 +60,14 @@ func main() {
 		watchHistoryRepository,
 		playlistRepository,
 		playlistVideoRepository,
-		addressSocial)
-	commentService := app.NewCommentService(commentRepository, replyRepository, likeCommentRepository)
-	replyService := app.NewReplyService(replyRepository, likeReplyRepository)
-	likeService := app.NewLikeService(likeRepository, videoRepository)
-	likeCommentService := app.NewLikeCommentService(likeCommentRepository, commentRepository)
-	likeReplyService := app.NewLikeReplyService(likeReplyRepository)
-	playlistService := app.NewPlaylistService(playlistRepository, playlistVideoRepository, videoRepository)
+		addressSocial,
+		cacheConn)
+	commentService := app.NewCommentService(commentRepository, replyRepository, likeCommentRepository, cacheConn)
+	replyService := app.NewReplyService(replyRepository, likeReplyRepository, cacheConn)
+	likeService := app.NewLikeService(likeRepository, videoRepository, cacheConn)
+	likeCommentService := app.NewLikeCommentService(likeCommentRepository, commentRepository, cacheConn)
+	likeReplyService := app.NewLikeReplyService(likeReplyRepository, cacheConn)
+	playlistService := app.NewPlaylistService(playlistRepository, playlistVideoRepository, videoRepository, cacheConn)
 
 	portStr := os.Getenv("PORT_BRAINROT")
 	port, err := strconv.Atoi(portStr)

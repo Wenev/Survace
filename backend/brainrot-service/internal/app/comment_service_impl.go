@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/helper"
 	"github.com/Wenev/Survace/brainrot-service/ports/out"
@@ -16,11 +15,11 @@ type CommentServiceImpl struct {
 	repo            out.CommentRepository
 	replyRepo       out.ReplyRepository
 	likeCommentRepo out.LikeCommentRepository
-	cache           *cache.MemcachedConnection
+	cache           out.CacheRepository
 }
 
-func NewCommentService(repo out.CommentRepository, replyRepo out.ReplyRepository, likeCommentRepo out.LikeCommentRepository) *CommentServiceImpl {
-	return &CommentServiceImpl{repo: repo, replyRepo: replyRepo, likeCommentRepo: likeCommentRepo, cache: cache.CacheConnection()}
+func NewCommentService(repo out.CommentRepository, replyRepo out.ReplyRepository, likeCommentRepo out.LikeCommentRepository, cache out.CacheRepository) *CommentServiceImpl {
+	return &CommentServiceImpl{repo: repo, replyRepo: replyRepo, likeCommentRepo: likeCommentRepo, cache: cache}
 }
 
 func (s *CommentServiceImpl) AddComment(ctx context.Context, userId int32, videoId int32, text string) (int32, string, error) {
@@ -37,7 +36,7 @@ func (s *CommentServiceImpl) AddComment(ctx context.Context, userId int32, video
 		return int32(codes.Internal), "Failed to add comment", err
 	}
 	helper.InvalidateFeedCache(s.cache, userId)
-	helper.InvalidateCommentCache(s.cache, videoId)
+	helper.InvalidateEntityCache(s.cache, "comments:video", videoId)
 	return int32(codes.OK), "Comment added successfully", nil
 }
 
@@ -84,6 +83,6 @@ func (s *CommentServiceImpl) DeleteComment(ctx context.Context, commentId int32)
 		return int32(codes.Internal), "Failed to delete comment", err
 	}
 	helper.InvalidateFeedCache(s.cache, comment.UserID)
-	helper.InvalidateCommentCache(s.cache, comment.VideoID)
+	helper.InvalidateEntityCache(s.cache, "comments:video", comment.VideoID)
 	return int32(codes.OK), "Comment deleted successfully", nil
 }
