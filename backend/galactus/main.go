@@ -40,10 +40,7 @@ func main() {
 
 	server := grpc.NewGrpcServer(port, userService, settingService)
 	defer server.Stop()
-	server.Start()
-	err = server.Start()
-	if err != nil {
+	if err := server.Start(); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
-
 }
