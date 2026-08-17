@@ -3,7 +3,6 @@ package cache
 import (
 	"encoding/json"
 	"github.com/bradfitz/gomemcache/memcache"
-	"log"
 	"os"
 	"time"
 )
@@ -20,7 +19,6 @@ func NewMemcachedConnection(serverAddress ...string) *MemcachedConnection {
 
 func CacheConnection() *MemcachedConnection {
 	memcachedAddr := os.Getenv("CACHE_URL")
-	log.Print(memcachedAddr + "hello")
 	if memcachedAddr == "" {
 		memcachedAddr = "memcached:11212"
 	}
@@ -45,8 +43,6 @@ func (m *MemcachedConnection) Get(key string, dest interface{}) error {
 	if err != nil {
 		return err
 	}
-	log.Print(item.Value)
-	log.Print("HELLO")
 	return json.Unmarshal(item.Value, dest)
 }
 
