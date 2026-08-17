@@ -3,7 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/internal/adapters/outbound/cache"
+	"github.com/Wenev/Survace/stream-service/internal/adapters/outbound/cache"
 	"github.com/bradfitz/gomemcache/memcache"
 	"github.com/golang-jwt/jwt/v5"
 	"math/rand"

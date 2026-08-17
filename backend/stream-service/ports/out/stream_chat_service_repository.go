@@ -2,7 +2,7 @@ package out
 
 import (
 	"context"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/internal/app/domain"
+	"github.com/Wenev/Survace/stream-service/internal/app/domain"
 )
 
 type StreamChatRepository interface {

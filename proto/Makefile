@@ -1,4 +1,4 @@
-GO_MODULE := github.com/Acad600-TPA/WEB-WE-251/proto
+GO_MODULE := github.com/Wenev/Survace/proto
 .PHONY: protoc-go
 protoc-go:
 	protoc --go_opt=module=$(GO_MODULE) --go_out=. \

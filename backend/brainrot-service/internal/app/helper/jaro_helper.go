@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/app/domain"
+	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 )
 
 func CalculateJaroDistance(s1, s2 string) float64 {

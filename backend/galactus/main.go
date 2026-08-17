@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/config"
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/internal/adapters/inbound/grpc"
-	cache2 "github.com/Acad600-TPA/WEB-WE-251/galactus/internal/adapters/outbound/cache"
-	database "github.com/Acad600-TPA/WEB-WE-251/galactus/internal/adapters/outbound/db"
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/internal/adapters/outbound/minio"
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/internal/adapters/outbound/repository"
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/internal/app"
+	"github.com/Wenev/Survace/galactus/config"
+	"github.com/Wenev/Survace/galactus/internal/adapters/inbound/grpc"
+	cache2 "github.com/Wenev/Survace/galactus/internal/adapters/outbound/cache"
+	database "github.com/Wenev/Survace/galactus/internal/adapters/outbound/db"
+	"github.com/Wenev/Survace/galactus/internal/adapters/outbound/minio"
+	"github.com/Wenev/Survace/galactus/internal/adapters/outbound/repository"
+	"github.com/Wenev/Survace/galactus/internal/app"
 	"log"
 	"os"
 	"strconv"

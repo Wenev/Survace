@@ -1,6 +1,6 @@
 package in
 
-import "github.com/Acad600-TPA/WEB-WE-251/backend/social-service/internal/app/domain"
+import "github.com/Wenev/Survace/backend/social-service/internal/app/domain"
 
 type FollowService interface {
 	GetFollowers(userID int32) (int32, string, []*domain.Follow, error)

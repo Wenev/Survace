@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/config"
+	"github.com/Wenev/Survace/stream-service/config"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/driver/postgres"

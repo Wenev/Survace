@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/app/domain"
+	"github.com/Wenev/Survace/notification-service/internal/app/domain"
 	"gorm.io/gorm"
 )
 

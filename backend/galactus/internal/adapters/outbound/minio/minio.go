@@ -1,7 +1,7 @@
 package minio
 
 import (
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/config"
+	"github.com/Wenev/Survace/galactus/config"
 	"os"
 )
 

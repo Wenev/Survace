@@ -1,9 +1,9 @@
-module github.com/Acad600-TPA/WEB-WE-251/brainrot-service
+module github.com/Wenev/Survace/brainrot-service
 
 go 1.24.3
 
 require (
-	github.com/Acad600-TPA/WEB-WE-251/proto v0.0.0-20250715112228-8c06fc7eb540
+	github.com/Wenev/Survace/proto v0.0.0-00010101000000-000000000000
 	github.com/bradfitz/gomemcache v0.0.0-20250403215159-8d39553ac7cf
 	github.com/minio/minio-go/v7 v7.0.92
 	google.golang.org/grpc v1.72.2

@@ -1,6 +1,6 @@
 package helper
 
-import "github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/app/domain"
+import "github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 
 func DeduplicateVideos(videos []*domain.Video) []*domain.Video {
 	seen := make(map[int32]struct{})

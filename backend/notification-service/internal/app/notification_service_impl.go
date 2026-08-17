@@ -3,10 +3,10 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/adapters/outbound/cache"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/app/domain"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/ports/in"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/ports/out"
+	"github.com/Wenev/Survace/notification-service/internal/adapters/outbound/cache"
+	"github.com/Wenev/Survace/notification-service/internal/app/domain"
+	"github.com/Wenev/Survace/notification-service/ports/in"
+	"github.com/Wenev/Survace/notification-service/ports/out"
 	"google.golang.org/grpc/codes"
 	"time"
 )

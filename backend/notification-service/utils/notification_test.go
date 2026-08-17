@@ -5,8 +5,8 @@
 //	"testing"
 //	"time"
 //
-//	app "github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/app"
-//	"github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/app/domain"
+//	app "github.com/Wenev/Survace/notification-service/internal/app"
+//	"github.com/Wenev/Survace/notification-service/internal/app/domain"
 //)
 //
 //type mockRepo struct {

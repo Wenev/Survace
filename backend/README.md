@@ -12,7 +12,7 @@ touch Dockerfile Makefile .air.toml main.go
 --- 
 *in makefile:*
 
-GO_MODULE := "github.com/Acad600-TPA/WEB-WE-251/*"
+GO_MODULE := "github.com/Wenev/Survace/*"
 .PHONY:protoc-go
 protoc-go:
     protoc --go_opt=module={GO_MODULE} --go_out=. \
@@ -27,6 +27,6 @@ go get -u gorm.io/gorm
 go get -u gorm.io/driver/postgres
 
 ---
-export GOPRIVATE=github.com/Acad600-TPA/WEB-WE-251/proto
-export GONOSUMDB=github.com/Acad600-TPA/WEB-WE-251/proto
-go get github.com/Acad600-TPA/WEB-WE-251/proto
+export GOPRIVATE=github.com/Wenev/Survace/proto
+export GONOSUMDB=github.com/Wenev/Survace/proto
+go get github.com/Wenev/Survace/proto

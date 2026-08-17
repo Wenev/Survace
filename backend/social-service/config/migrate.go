@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/Acad600-TPA/WEB-WE-251/backend/social-service/internal/app/domain"
+	"github.com/Wenev/Survace/backend/social-service/internal/app/domain"
 	"gorm.io/gorm"
 )
 

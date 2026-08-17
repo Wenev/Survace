@@ -5,12 +5,12 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/Acad600-TPA/WEB-WE-251/backend/social-service/config"
-	"github.com/Acad600-TPA/WEB-WE-251/backend/social-service/internal/adapters/inbound/grpc"
-	"github.com/Acad600-TPA/WEB-WE-251/backend/social-service/internal/adapters/outbound/cache"
-	database "github.com/Acad600-TPA/WEB-WE-251/backend/social-service/internal/adapters/outbound/db"
-	"github.com/Acad600-TPA/WEB-WE-251/backend/social-service/internal/adapters/outbound/repository"
-	"github.com/Acad600-TPA/WEB-WE-251/backend/social-service/internal/app"
+	"github.com/Wenev/Survace/backend/social-service/config"
+	"github.com/Wenev/Survace/backend/social-service/internal/adapters/inbound/grpc"
+	"github.com/Wenev/Survace/backend/social-service/internal/adapters/outbound/cache"
+	database "github.com/Wenev/Survace/backend/social-service/internal/adapters/outbound/db"
+	"github.com/Wenev/Survace/backend/social-service/internal/adapters/outbound/repository"
+	"github.com/Wenev/Survace/backend/social-service/internal/app"
 )
 
 func main() {

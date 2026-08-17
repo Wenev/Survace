@@ -2,7 +2,7 @@ package database
 
 import (
 	"fmt"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/config"
+	"github.com/Wenev/Survace/notification-service/config"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/driver/postgres"

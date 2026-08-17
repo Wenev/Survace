@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/internal/app/domain"
+	"github.com/Wenev/Survace/galactus/internal/app/domain"
 	"gorm.io/gorm"
 )
 

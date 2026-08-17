@@ -3,8 +3,8 @@ package app
 import (
 	"context"
 
-	"github.com/Acad600-TPA/WEB-WE-251/backend/social-service/internal/app/domain"
-	"github.com/Acad600-TPA/WEB-WE-251/backend/social-service/ports/out"
+	"github.com/Wenev/Survace/backend/social-service/internal/app/domain"
+	"github.com/Wenev/Survace/backend/social-service/ports/out"
 	"google.golang.org/grpc/codes"
 )
 

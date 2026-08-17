@@ -2,7 +2,7 @@ package out
 
 import (
 	"context"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/app/domain"
+	"github.com/Wenev/Survace/notification-service/internal/app/domain"
 )
 
 type NotificationRepository interface {

@@ -1,4 +1,4 @@
-module github.com/Acad600-TPA/WEB-WE-251/galactus
+module github.com/Wenev/Survace/galactus
 
 go 1.24.3
 
@@ -11,7 +11,7 @@ require (
 	cloud.google.com/go/auth v0.16.1 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	cloud.google.com/go/compute/metadata v0.7.0 // indirect
-	github.com/Acad600-TPA/WEB-WE-251/proto v0.0.0-20250715112228-8c06fc7eb540 // indirect
+	github.com/Wenev/Survace/proto v0.0.0-00010101000000-000000000000 // indirect
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/aead/chacha20poly1305 v0.0.0-20201124145622-1a5aba2a8b29 // indirect
 	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect

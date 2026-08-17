@@ -7,9 +7,9 @@ import (
 	"net"
 	"sync"
 
-	"github.com/Acad600-TPA/WEB-WE-251/proto/gen/controller"
-	"github.com/Acad600-TPA/WEB-WE-251/proto/gen/dto"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/ports/in"
+	"github.com/Wenev/Survace/proto/gen/controller"
+	"github.com/Wenev/Survace/proto/gen/dto"
+	"github.com/Wenev/Survace/stream-service/ports/in"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 

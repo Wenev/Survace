@@ -3,9 +3,9 @@ package grpc
 import (
 	"context"
 	"fmt"
-	out "github.com/Acad600-TPA/WEB-WE-251/brainrot-service/ports/in"
-	"github.com/Acad600-TPA/WEB-WE-251/proto/gen/controller"
-	"github.com/Acad600-TPA/WEB-WE-251/proto/gen/dto"
+	out "github.com/Wenev/Survace/brainrot-service/ports/in"
+	"github.com/Wenev/Survace/proto/gen/controller"
+	"github.com/Wenev/Survace/proto/gen/dto"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"net"

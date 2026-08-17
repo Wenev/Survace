@@ -1,16 +1,16 @@
 package main
 
 import (
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/internal/adapters/outbound/cache"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/internal/adapters/outbound/db"
+	"github.com/Wenev/Survace/stream-service/internal/adapters/outbound/cache"
+	"github.com/Wenev/Survace/stream-service/internal/adapters/outbound/db"
 	"log"
 	"os"
 	"strconv"
 
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/config"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/internal/adapters/inbound/grpc"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/internal/adapters/outbound/repository"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/internal/app"
+	"github.com/Wenev/Survace/stream-service/config"
+	"github.com/Wenev/Survace/stream-service/internal/adapters/inbound/grpc"
+	"github.com/Wenev/Survace/stream-service/internal/adapters/outbound/repository"
+	"github.com/Wenev/Survace/stream-service/internal/app"
 	"github.com/joho/godotenv"
 )
 

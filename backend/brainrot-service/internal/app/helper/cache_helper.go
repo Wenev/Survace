@@ -2,7 +2,7 @@ package helper
 
 import (
 	"fmt"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/outbound/cache"
+	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
 )
 
 func InvalidateFeedCache(c *cache.MemcachedConnection, userIds ...int32) {

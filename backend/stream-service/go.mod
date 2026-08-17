@@ -1,9 +1,9 @@
-module github.com/Acad600-TPA/WEB-WE-251/stream-service
+module github.com/Wenev/Survace/stream-service
 
 go 1.24.3
 
 require (
-	github.com/Acad600-TPA/WEB-WE-251/proto v0.0.0-20250715112228-8c06fc7eb540
+	github.com/Wenev/Survace/proto v0.0.0-00010101000000-000000000000
 	github.com/bradfitz/gomemcache v0.0.0-20250403215159-8d39553ac7cf
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/joho/godotenv v1.5.1

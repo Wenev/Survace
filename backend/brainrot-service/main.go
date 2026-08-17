@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/config"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/inbound/grpc"
-	database "github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/outbound/db"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/outbound/minio"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/outbound/repository"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/app"
+	"github.com/Wenev/Survace/brainrot-service/config"
+	"github.com/Wenev/Survace/brainrot-service/internal/adapters/inbound/grpc"
+	database "github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/db"
+	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/minio"
+	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/repository"
+	"github.com/Wenev/Survace/brainrot-service/internal/app"
 
-	brainrotgrpc "github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/inbound/grpc"
+	brainrotgrpc "github.com/Wenev/Survace/brainrot-service/internal/adapters/inbound/grpc"
 	"log"
 	"os"
 	"strconv"

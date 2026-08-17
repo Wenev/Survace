@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/app/domain"
+	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 	"gorm.io/gorm"
 )
 

@@ -3,10 +3,10 @@ package app
 import (
 	"context"
 	"errors"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/outbound/cache"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/app/domain"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/app/helper"
-	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/ports/out"
+	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
+	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
+	"github.com/Wenev/Survace/brainrot-service/internal/app/helper"
+	"github.com/Wenev/Survace/brainrot-service/ports/out"
 	"google.golang.org/grpc/codes"
 )
 

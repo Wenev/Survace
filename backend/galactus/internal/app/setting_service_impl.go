@@ -3,9 +3,9 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/internal/adapters/outbound/cache"
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/internal/app/domain"
-	"github.com/Acad600-TPA/WEB-WE-251/galactus/internal/ports/out"
+	"github.com/Wenev/Survace/galactus/internal/adapters/outbound/cache"
+	"github.com/Wenev/Survace/galactus/internal/app/domain"
+	"github.com/Wenev/Survace/galactus/internal/ports/out"
 	"google.golang.org/grpc/codes"
 	"time"
 )

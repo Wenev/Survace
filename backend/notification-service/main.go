@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/config"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/adapters/inbound/grpc"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/adapters/outbound/cache"
-	database "github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/adapters/outbound/db"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/adapters/outbound/repository"
-	"github.com/Acad600-TPA/WEB-WE-251/notification-service/internal/app"
+	"github.com/Wenev/Survace/notification-service/config"
+	"github.com/Wenev/Survace/notification-service/internal/adapters/inbound/grpc"
+	"github.com/Wenev/Survace/notification-service/internal/adapters/outbound/cache"
+	database "github.com/Wenev/Survace/notification-service/internal/adapters/outbound/db"
+	"github.com/Wenev/Survace/notification-service/internal/adapters/outbound/repository"
+	"github.com/Wenev/Survace/notification-service/internal/app"
 	"log"
 	"os"
 	"strconv"

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/internal/app/domain"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/ports/in"
-	"github.com/Acad600-TPA/WEB-WE-251/stream-service/ports/out"
+	"github.com/Wenev/Survace/stream-service/internal/app/domain"
+	"github.com/Wenev/Survace/stream-service/ports/in"
+	"github.com/Wenev/Survace/stream-service/ports/out"
 	"google.golang.org/grpc/codes"
 )
 
