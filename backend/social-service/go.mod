@@ -3,7 +3,7 @@ module github.com/Wenev/Survace/backend/social-service
 go 1.24.3
 
 require (
-	github.com/Wenev/Survace/proto v0.0.0-00010101000000-000000000000
+	github.com/Wenev/Survace/proto v0.1.0
 	github.com/bradfitz/gomemcache v0.0.0-20250403215159-8d39553ac7cf
 	google.golang.org/grpc v1.73.0
 	google.golang.org/protobuf v1.36.6
