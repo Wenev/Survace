@@ -1,0 +1,106 @@
+@import '../theme.css';
+
+.video-preview {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: var(--color-bg-secondary);
+  transition: transform 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px var(--color-shadow);
+}
+
+.video-preview:hover {
+  transform: translateY(-2px);
+}
+
+.video-preview-thumbnail {
+  position: relative;
+  width: 100%;
+  padding-top: 177.78%; /* Portrait aspect ratio like TikTok */
+  overflow: hidden;
+  background-color: var(--color-bg-tertiary);
+}
+
+.video-preview-thumbnail video,
+.video-preview-thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-preview-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.video-preview-stats {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  color: white;
+}
+
+.video-preview-stat {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.video-preview-info {
+  padding: 6px;
+  flex: 1;
+}
+
+.video-preview-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Show only 1 line */
+  -webkit-box-orient: vertical;
+}
+
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+  padding: 8px;
+}
+
+@media (min-width: 600px) {
+  .videos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+@media (min-width: 992px) {
+  .videos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+}

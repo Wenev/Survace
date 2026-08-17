@@ -1,0 +1,189 @@
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.29-latest
+    volumes:
+      - ./gateway/envoy/envoy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - "8080:8080"
+    networks:
+      - microservices
+    depends_on:
+      - galactus
+      - brainrot-service
+
+  frontend:
+    build:
+      context: ./client/app
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client/app:/app
+      - /app/node_modules
+    networks:
+      - microservices
+    env_file:
+      - .env
+
+  galactus:
+    build:
+      context: ./backend/galactus
+      dockerfile: Dockerfile
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+    working_dir: /app
+    volumes:
+      - ./backend/galactus/:/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      - microservices
+    depends_on:
+      - galactus-db
+      - memcached
+      - minio
+#    command: air
+
+  galactus-db:
+    image: postgres
+    restart: always
+    container_name: galactus-db
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_galactus:/var/lib/postgresql/data
+    networks:
+      - microservices
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  brainrot-service:
+    build:
+      context: ./backend/brainrot-service
+      dockerfile: Dockerfile
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+    working_dir: /app
+    volumes:
+      - ./backend/brainrot-service/:/app
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
+    networks:
+      - microservices
+    depends_on:
+      - galactus-db
+      - minio
+
+  social-service:
+    build:
+      context: ./backend/social-service
+      dockerfile: Dockerfile
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+    working_dir: /app
+    volumes:
+      - ./backend/social-service/:/app
+    ports:
+      - "3002:3002"
+    env_file:
+      - .env
+    networks:
+      - microservices
+    depends_on:
+      - galactus-db
+      - minio
+      - memcached
+
+  stream-service:
+    build:
+      context: ./backend/stream-service
+      dockerfile: Dockerfile
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+    working_dir: /app
+    volumes:
+      - ./backend/stream-service/:/app
+    ports:
+      - "3003:3003"
+    env_file:
+      - .env
+    networks:
+      - microservices
+    depends_on:
+      - galactus-db
+      - memcached
+
+  notification-service:
+    build:
+      context: ./backend/notification-service
+      dockerfile: Dockerfile
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+    working_dir: /app
+    volumes:
+      - ./backend/notification-service/:/app
+    ports:
+      - "3004:3004"
+    env_file:
+      - .env
+    networks:
+      - microservices
+    depends_on:
+      - galactus-db
+      - memcached
+
+  memcached:
+    image: memcached:alpine
+    container_name: galactus-memcached
+    ports:
+      - "11212:11211"
+    networks:
+      - microservices
+    restart: always
+    command: memcached -m 64
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - microservices
+    env_file:
+      - .env
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9001"
+
+  ai-service:
+    build:
+      context: ./backend/ai-service
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - ./backend/ai-service:/app
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    networks:
+      - microservices
+
+networks:
+  microservices:
+    driver: bridge
+
+volumes:
+  postgres_data_galactus:
+  postgres_data_brainrot:
+  minio-data:

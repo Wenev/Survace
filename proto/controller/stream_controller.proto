@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+//option go_package = "github.com/Acad600-TPA/WEB-WE-251/stream-service/internal/adapters/inbound/controller";
+option go_package = "github.com/Acad600-TPA/WEB-WE-251/proto/gen/controller";
+import "dto/stream.proto";
+
+service StreamService {
+
+  rpc StreamChat(stream StreamChatMessage) returns (stream StreamChatMessage);
+  // Get a Stream JWT token for a user (streamer)
+  rpc GetStreamToken(GetStreamTokenRequest) returns (GetStreamTokenResponse);
+
+  // Fetch the stream id for a user if live (viewer)
+  rpc GetLiveStreamId(GetLiveStreamIdRequest) returns (GetLiveStreamIdResponse);
+
+  // Check if a specific user is live
+  rpc IsUserLive(IsUserLiveRequest) returns (IsUserLiveResponse);
+
+  //Go Live for user live check
+  rpc GoLive(GoLiveRequest) returns (GoLiveResponse);
+
+  // Stop a live stream for a user
+  rpc StopLive(StopLiveRequest) returns (StopLiveResponse);
+
+  // List all current live streams
+  rpc ListLiveStreams(ListLiveStreamsRequest) returns (ListLiveStreamsResponse);
+}
+

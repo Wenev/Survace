@@ -1,0 +1,89 @@
+package main
+
+import (
+	"fmt"
+	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/config"
+	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/inbound/grpc"
+	database "github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/outbound/db"
+	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/outbound/minio"
+	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/outbound/repository"
+	"github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/app"
+
+	brainrotgrpc "github.com/Acad600-TPA/WEB-WE-251/brainrot-service/internal/adapters/inbound/grpc"
+	"log"
+	"os"
+	"strconv"
+)
+
+func main() {
+	log.Print("Brainrot running PLEASEAANG")
+	db, err := database.DatabaseConnect()
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+		return
+	}
+	err = config.SetupDatabase(db)
+	if err != nil {
+		panic("failed to run migrations: " + err.Error())
+	}
+	minioClient, err := minio.MinIOConnect()
+	if err != nil {
+		log.Fatalf("Failed to connect to minio: %v", err)
+		return
+	}
+
+	commentRepository := repository.NewCommentRepository(db)
+	likeRepository := repository.NewLikeRepository(db)
+	videoRepository := repository.NewVideoRepository(db, minioClient)
+	watchHistoryRepository := repository.NewWatchHistoryRepository(db)
+	replyRepository := repository.NewReplyRepository(db)
+	likeCommentRepository := repository.NewLikeCommentRepository(db)
+	likeReplyRepository := repository.NewLikeReplyRepository(db)
+	playlistRepository := repository.NewPlaylistRepository(db)
+	playlistVideoRepository := repository.NewPlaylistVideoRepository(db)
+	addressSocial, err := brainrotgrpc.NewSocialClient("social-service:3002")
+	if err != nil {
+		log.Printf("Failed to connect to galactus: %v", err)
+		addressSocial = nil
+	}
+
+	if addressSocial == nil {
+		log.Printf("Warning: SocialClient is nil, social features will be disabled.")
+	}
+	videoService := app.NewVideoService(
+		videoRepository,
+		likeRepository,
+		commentRepository,
+		watchHistoryRepository,
+		playlistRepository,
+		playlistVideoRepository,
+		addressSocial)
+	commentService := app.NewCommentService(commentRepository, replyRepository, likeCommentRepository)
+	replyService := app.NewReplyService(replyRepository, likeReplyRepository)
+	likeService := app.NewLikeService(likeRepository, videoRepository)
+	likeCommentService := app.NewLikeCommentService(likeCommentRepository, commentRepository)
+	likeReplyService := app.NewLikeReplyService(likeReplyRepository)
+	playlistService := app.NewPlaylistService(playlistRepository, playlistVideoRepository, videoRepository)
+
+	portStr := os.Getenv("PORT_BRAINROT")
+	port, err := strconv.Atoi(portStr)
+	log.Print("PORTTT")
+	log.Print(port)
+	fmt.Print(port)
+	if err != nil || port == 0 {
+		log.Printf("Invalid port: %v, defaulting to 3001", err)
+		port = 3001
+	}
+	address, err := brainrotgrpc.NewGalactusClient("galactus:3000")
+	if err != nil {
+		log.Printf("Failed to connect to galactus: %v", err)
+		address = nil // fallback to nil if error
+	}
+	server := grpc.NewGrpcServer(port, videoService, playlistService, commentService, replyService, likeService, likeCommentService,
+		likeReplyService, address)
+	defer server.Stop()
+	err = server.Start()
+	if err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
+}

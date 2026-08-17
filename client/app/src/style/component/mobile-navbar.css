@@ -1,0 +1,74 @@
+@import "../theme.css";
+
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1001;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.menu-toggle:hover {
+    background-color: var(--color-hover);
+}
+
+.menu-toggle span {
+    width: 20px;
+    height: 2px;
+    background-color: var(--color-text);
+    transition: all 0.3s ease;
+    border-radius: 1px;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--color-text);
+}
+
+.tiktok-icon {
+    font-size: 24px;
+    color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+    .mobile-header {
+        display: flex;
+    }
+}

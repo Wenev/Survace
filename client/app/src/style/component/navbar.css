@@ -1,0 +1,224 @@
+@import "../theme.css";
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100vh;
+    background-color: var(--color-bg);
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 8px var(--color-shadow);
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-bg);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--color-text);
+}
+
+.tiktok-icon {
+    font-size: 24px;
+    color: var(--color-primary);
+}
+
+.sidebar-content {
+    padding: 20px 0;
+    background: var(--color-bg);
+}
+
+.search-container {
+    position: relative;
+    margin: 0 20px 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(254, 44, 85, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--color-text-secondary);
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-icon);
+    pointer-events: none;
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin-bottom: 2px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-radius: 0;
+}
+
+.nav-link:hover {
+    background-color: var(--color-hover);
+    color: var(--color-text);
+}
+
+.nav-item.active .nav-link {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.nav-item.active .nav-link .nav-icon {
+    color: var(--color-text);
+}
+
+.nav-icon {
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+    color: var(--color-icon);
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover .nav-icon {
+    color: var(--color-text);
+}
+
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 40px;
+    padding: 0 20px;
+    border-top: 1px solid var(--color-border);
+    padding-top: 20px;
+}
+
+.footer-section h4 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.footer-section p {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.footer-links p {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.footer-links p:hover {
+    color: var(--color-text);
+}
+
+.theme-toggle-btn {
+    display: flex;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+    color: var(--color-icon);
+    padding: 8px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+}
+
+.theme-toggle-btn:hover {
+    color: var(--color-primary);
+    background-color: var(--color-hover);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        box-shadow: none;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 8px var(--color-shadow);
+    }
+
+    .sidebar-content {
+        padding: 10px 0;
+    }
+
+    .nav-link {
+        padding: 12px 20px;
+    }
+
+    .search-container {
+        margin: 0 15px 15px;
+    }
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-icon);
+}

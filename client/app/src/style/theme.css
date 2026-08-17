@@ -1,0 +1,91 @@
+:root {
+  /* Light mode colors */
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f8f9fa;
+  --color-bg-tertiary: #e9ecef;
+  --color-text: #212529;
+  --color-text-secondary: #6c757d;
+  --color-text-muted: #adb5bd;
+  --color-primary: #fe2c55;
+  --color-primary-hover: #e91e63;
+  --color-border: #dee2e6;
+  --color-border-light: #f1f3f4;
+  --color-card: #ffffff;
+  --color-input-bg: #f8f9fa;
+  --color-input-border: #ced4da;
+  --color-icon: #6c757d;
+  --color-hover: #f8f9fa;
+  --color-active: #e9ecef;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+}
+
+/* Automatically use dark mode if device prefers it */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #000000;
+    --color-bg-secondary: #161618;
+    --color-bg-tertiary: #1f1f23;
+    --color-text: #ffffff;
+    --color-text-secondary: #a8a8b3;
+    --color-text-muted: #6c6c80;
+    --color-primary: #fe2c55;
+    --color-primary-hover: #ff1744;
+    --color-border: #2a2a2e;
+    --color-border-light: #1f1f23;
+    --color-card: #161618;
+    --color-input-bg: #1f1f23;
+    --color-input-border: #2a2a2e;
+    --color-icon: #a8a8b3;
+    --color-hover: #1f1f23;
+    --color-active: #2a2a2e;
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-overlay: rgba(0, 0, 0, 0.7);
+  }
+}
+
+body.dark-mode,
+.dark-mode {
+  /* Dark mode colors (manual override) */
+  --color-bg: #000000;
+  --color-bg-secondary: #161618;
+  --color-bg-tertiary: #1f1f23;
+  --color-text: #ffffff;
+  --color-text-secondary: #a8a8b3;
+  --color-text-muted: #6c6c80;
+  --color-primary: #fe2c55;
+  --color-primary-hover: #ff1744;
+  --color-border: #2a2a2e;
+  --color-border-light: #1f1f23;
+  --color-card: #161618;
+  --color-input-bg: #1f1f23;
+  --color-input-border: #2a2a2e;
+  --color-icon: #a8a8b3;
+  --color-hover: #1f1f23;
+  --color-active: #2a2a2e;
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-overlay: rgba(0, 0, 0, 0.7);
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-icon);
+}

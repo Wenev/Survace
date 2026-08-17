@@ -1,0 +1,270 @@
+@import "./theme.css";
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    overflow: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tiktok-container {
+    min-height: 100vh;
+    font-family: sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.input-form{
+    padding: 12px 16px;
+    border: 1px solid var(--color-input-border, #d1d5db);
+    border-radius: 8px;
+    background: var(--color-input-bg, #f3f4f6);
+    color: var(--color-text, #111827);
+    font-size: 1rem;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--color-primary, #fe2c55);
+    background: var(--color-bg-secondary, #f3f4f6);
+}
+
+.login-btn {
+    background: var(--color-primary, #fe2c55);
+    color: var(--color-bg, #fff);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.login-btn:hover {
+    background: var(--color-primary-hover, #e91e63);
+}
+
+
+.help-link {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.help-link:hover {
+    text-decoration: underline;
+    color: var(--color-text);
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 40px 24px;
+    background-color: var(--color-bg);
+}
+
+.signup-container {
+    width: 100%;
+    max-width: 375px;
+    text-align: center;
+    background-color: var(--color-card);
+    padding: 40px 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px var(--color-shadow);
+    border: 1px solid var(--color-border);
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 8px 0;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    margin: 0 0 32px 0;
+    line-height: 1.4;
+}
+
+.signup-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.signup-option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--color-input-border);
+    border-radius: 8px;
+    background-color: var(--color-input-bg);
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.signup-option:hover {
+    background-color: var(--color-hover);
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+}
+
+.signup-option.facebook {
+    border-color: #1877f2;
+    color: #1877f2;
+}
+
+.signup-option.google {
+    border-color: #4285f4;
+    color: #4285f4;
+}
+
+.signup-option.line {
+    border-color: #00c300;
+    color: #00c300;
+}
+
+.signup-option.kakao {
+    border-color: #fee500;
+    color: #3c1e1e;
+    background-color: #fee500;
+}
+
+.option-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.terms-text {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+    margin-bottom: 24px;
+    padding: 0 16px;
+}
+
+.terms-text a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.terms-text a:hover {
+    text-decoration: underline;
+    color: var(--color-primary);
+}
+
+.login-link {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+}
+
+.login-link a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+    color: var(--color-primary-hover);
+}
+
+@media (min-width: 600px) {
+    .signup-container {
+        max-width: 450px;
+        padding: 48px 40px;
+    }
+
+    .title {
+        font-size: 34px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 768px) {
+    .main-content {
+        padding: 60px 32px;
+    }
+
+    .signup-option {
+        font-size: 16px;
+        padding: 16px 20px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .tiktok-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .signup-container {
+        max-width: 500px;
+    }
+
+    .main-content {
+        padding: 80px 24px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .signup-container {
+        max-width: 600px;
+    }
+}

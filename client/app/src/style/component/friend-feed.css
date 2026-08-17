@@ -1,0 +1,29 @@
+/* FriendPage specific feed styling: smaller feed, adjusted height/padding */
+.friend-feed-wrapper {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    min-height: 480px;
+    padding: 24px 0 24px 0;
+}
+
+.friend-side-scroll-list {
+    height: 480px;
+    overflow-y: auto;
+    min-width: 100px;
+    max-width: 120px;
+    margin-right: 20px;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.friend-vertical-feed {
+    flex: 1;
+    min-height: 480px;
+}
+
