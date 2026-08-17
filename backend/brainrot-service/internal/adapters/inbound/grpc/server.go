@@ -16,7 +16,7 @@ type GrpcServer struct {
 	grpcPort           int
 	server             *grpc.Server
 	videoService       out.VideoService
-	playlistService    out.PlaylistService // <-- Add this line
+	playlistService    out.PlaylistService
 	commentService     out.CommentService
 	replyService       out.ReplyService
 	likeService        out.LikeService
@@ -97,7 +97,7 @@ func NewGrpcServer(grpcPort int, videoService out.VideoService, playlistService 
 	gs := &GrpcServer{
 		grpcPort:           grpcPort,
 		videoService:       videoService,
-		playlistService:    playlistService, // <-- Add this line
+		playlistService:    playlistService,
 		commentService:     commentService,
 		replyService:       replyService,
 		likeService:        likeService,
@@ -348,7 +348,6 @@ func (g *GrpcServer) DeleteReply(ctx context.Context, in *dto.DeleteReplyRequest
 	}, err
 }
 
-// --- Like Video Endpoints ---
 func (g *GrpcServer) LikeVideo(ctx context.Context, in *dto.LikeVideoRequest) (*dto.LikeVideoResponse, error) {
 	code, message, err := g.likeService.LikeVideo(ctx, in.UserId, in.VideoId)
 	return &dto.LikeVideoResponse{
@@ -460,7 +459,7 @@ func (g *GrpcServer) GetRandomFeed(ctx context.Context, in *dto.GetRandomFeedReq
 			LikeCount:     int32(likeCounts[i]),
 			CommentCount:  int32(commentCounts[i]),
 			ViewCount:     int32(viewCounts[i]),
-			ThumbnailUrl:  video.ThumbnailUrl, // Ensure thumbnail is set
+			ThumbnailUrl:  video.ThumbnailUrl,
 			PostedAt:      timestamppb.New(video.PostedAt),
 			IsDraft:       video.IsDraft,
 		})
@@ -503,7 +502,7 @@ func (g *GrpcServer) GetRandomFeedLoggedOut(ctx context.Context,
 			LikeCount:     int32(likeCounts[i]),
 			CommentCount:  int32(commentCounts[i]),
 			ViewCount:     int32(viewCounts[i]),
-			ThumbnailUrl:  video.ThumbnailUrl, // Ensure thumbnail is set
+			ThumbnailUrl:  video.ThumbnailUrl,
 			PostedAt:      timestamppb.New(video.PostedAt),
 			IsDraft:       video.IsDraft,
 		})
@@ -576,7 +575,7 @@ func (g *GrpcServer) UpdateVideo(ctx context.Context, in *dto.UpdateVideoRequest
 		in.ObjectName,
 		in.EnableComment,
 		in.Visibility,
-		in.Thumbnail, // Pass thumbnail bytes
+		in.Thumbnail,
 		postedAt,
 		in.IsDraft,
 	)
@@ -697,7 +696,7 @@ func (g *GrpcServer) CreatePlaylist(ctx context.Context, in *dto.CreatePlaylistR
 			Id:     playlist.ID,
 			UserId: playlist.UserID,
 			Title:  playlist.Title,
-			Videos: nil, // Videos can be filled if needed
+			Videos: nil,
 		}
 	}
 	return &dto.CreatePlaylistResponse{
@@ -707,7 +706,6 @@ func (g *GrpcServer) CreatePlaylist(ctx context.Context, in *dto.CreatePlaylistR
 	}, nil
 }
 
-// --- Playlist Endpoints ---
 
 func (g *GrpcServer) DeletePlaylist(ctx context.Context, in *dto.DeletePlaylistRequest) (*dto.DeletePlaylistResponse, error) {
 	code, message, err := g.playlistService.DeletePlaylist(ctx, in.PlaylistId, in.UserId)

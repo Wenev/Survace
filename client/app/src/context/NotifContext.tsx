@@ -68,7 +68,6 @@ export const NotifProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         })
       );
 
-      // Show browser notifications for unread notifications
       if (typeof window !== "undefined" && window.Notification && Notification.permission === "granted") {
         data.forEach((n: any) => {
           if (n.isRead === false) {

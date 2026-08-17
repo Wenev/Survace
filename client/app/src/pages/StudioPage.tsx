@@ -23,7 +23,6 @@ export default function StudioPage() {
     const [loading, setLoading] = useState(false);
     const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
     
-    // Add search state variables
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>("");
 
@@ -39,7 +38,6 @@ export default function StudioPage() {
     const [editMessage, setEditMessage] = useState("");
     const editThumbnailInputRef = useRef<HTMLInputElement>(null);
 
-    // Add delete video modal state
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -77,11 +75,10 @@ export default function StudioPage() {
         // eslint-disable-next-line
     }, [user]);
 
-    // Add debounce effect for search
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearchQuery(searchQuery);
-        }, 300); // 300ms debounce delay
+        }, 300);
 
         return () => {
             clearTimeout(timer);
@@ -89,14 +86,12 @@ export default function StudioPage() {
     }, [searchQuery]);
 
     const filteredVideos = videos.filter(video => {
-        // First filter by status
         if (statusFilter !== "all" && 
             ((statusFilter === "draft" && !video.isDraft) || 
              (statusFilter === "published" && video.isDraft))) {
             return false;
         }
         
-        // Then filter by search query
         if (debouncedSearchQuery) {
             return video.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
         }
@@ -112,7 +107,6 @@ export default function StudioPage() {
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-    // Open edit modal
     const handleEditClick = (video: any) => {
         setEditVideo(video);
         setEditTitle(video.title);
@@ -135,7 +129,6 @@ export default function StudioPage() {
         setEditModalOpen(true);
     };
 
-    // Delete video handler
     const handleDeleteVideo = async () => {
         if (!editVideo) return;
         setDeleteLoading(true);
@@ -166,7 +159,6 @@ export default function StudioPage() {
             const buff = await editThumbnail.arrayBuffer();
             thumbnailBuff = new Uint8Array(buff);
         }
-        // Prepare postedAt from string (like UploadPage)
         let postedAtProto: any = undefined;
         if (editPostedAt) {
             const dateObj = new Date(editPostedAt);
@@ -184,7 +176,7 @@ export default function StudioPage() {
                 objectName: editVideo.objectName,
                 enableComment: editEnableComment,
                 visibility: editVisibility,
-                thumbnail: thumbnailBuff, // send thumbnail as bytes
+                thumbnail: thumbnailBuff,
                 postedAt: postedAtProto,
                 isDraft: editIsDraft,
             });
@@ -226,7 +218,6 @@ export default function StudioPage() {
                         </button>
                     </div>
                     
-                    {/* Add search input */}
                     <div style={{ marginBottom: "1.5rem" }}>
                         <div style={{ position: "relative" }}>
                             <input
@@ -375,7 +366,6 @@ export default function StudioPage() {
                     )}
                 </div>
             </div>
-            {/* Move modal outside of .container to avoid CSS stacking issues */}
             {editModalOpen && (
                 <div className="modal-overlay" style={{
                     position: "fixed",
@@ -490,7 +480,6 @@ export default function StudioPage() {
                     </div>
                 </div>
             )}
-            {/* Delete Video Modal */}
             {deleteModalOpen && (
                 <div className="modal-overlay" style={{
                     position: "fixed",

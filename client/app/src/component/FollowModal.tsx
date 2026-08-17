@@ -34,7 +34,6 @@ const FollowModal = ({ isOpen, onClose, userId, type, title }: FollowModalProps)
       setLoading(true);
       setError(null);
       try {
-        // Fetch either followers or following based on type
         const response = type === "followers"
           ? await social.listFollowers({ userId })
           : await social.listFollowing({ userId });
@@ -45,12 +44,10 @@ const FollowModal = ({ isOpen, onClose, userId, type, title }: FollowModalProps)
           return;
         }
 
-        // Extract user IDs from follow relationships
         const userIds = response.response.data.map((follow: any) => {
           return type === "followers" ? follow.followerId : follow.followeeId;
         });
 
-        // Fetch user details for each ID
         const usersData: User[] = [];
         for (const id of userIds) {
           try {
@@ -80,7 +77,6 @@ const FollowModal = ({ isOpen, onClose, userId, type, title }: FollowModalProps)
     fetchUsers();
   }, [isOpen, userId, type, social, galactus]);
 
-  // Filter users based on search query
   const filteredUsers = searchQuery
     ? users.filter(user =>
         user.username.toLowerCase().includes(searchQuery.toLowerCase())

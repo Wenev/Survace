@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-//option go_package = "github.com/Wenev/Survace/notification-service/internal/adapters/inbound/controller";
 
 option go_package = "github.com/Wenev/Survace/proto/gen/controller";
 import "dto/notification.proto";

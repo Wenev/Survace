@@ -115,7 +115,6 @@ func (v *VideoServiceImpl) GetVideoByID(ctx context.Context, id int32) (int32, s
 	likeCacheKey := fmt.Sprintf("like:video:%d", video.ID)
 	var likeCount int64
 	if err := v.cache.Get(likeCacheKey, &likeCount); err == nil {
-		// got from cache
 	} else {
 		likeCount, err = v.likeRepo.CountByVideoId(ctx, video.ID)
 		if err != nil {
@@ -146,7 +145,6 @@ func (v *VideoServiceImpl) GetUserVideo(ctx context.Context, userId int32) (int3
 		likeCacheKey := fmt.Sprintf("like:video:%d", video.ID)
 		var likeCount int64
 		if err := v.cache.Get(likeCacheKey, &likeCount); err == nil {
-			// got from cache
 		} else {
 			likeCount, err = v.likeRepo.CountByVideoId(ctx, video.ID)
 			if err != nil {
@@ -181,7 +179,6 @@ func (v *VideoServiceImpl) GetUserVideoAndDraft(ctx context.Context, userId int3
 		likeCacheKey := fmt.Sprintf("like:video:%d", video.ID)
 		var likeCount int64
 		if err := v.cache.Get(likeCacheKey, &likeCount); err == nil {
-			// got from cache
 		} else {
 			likeCount, err = v.likeRepo.CountByVideoId(ctx, video.ID)
 			if err != nil {
@@ -363,7 +360,7 @@ func (v *VideoServiceImpl) SearchVideo(ctx context.Context, query string, thresh
 			fmt.Errorf("empty search query")
 	}
 
-	allVideos, err := v.videoRepo.FindNewAndPopular(ctx, 1000, 1) // 0 means no limit, fetch all videos
+	allVideos, err := v.videoRepo.FindNewAndPopular(ctx, 1000, 1)
 	if err != nil {
 		return int32(codes.Internal), "Failed to fetch videos", nil, nil, nil, nil, err
 	}
@@ -425,13 +422,11 @@ func (v *VideoServiceImpl) DeleteVideoByID(ctx context.Context, videoId int32) (
 		return 13, "Failed to delete watch history", err
 	}
 
-	// Finally delete the video itself
 	if err := v.videoRepo.Delete(ctx, videoId); err != nil {
 		return 13, "Internal server error", err
 	}
 
-	// Invalidate caches
-	helper.InvalidateFeedCache(v.cache, 0) // Invalidate feed cache for all users
+	helper.InvalidateFeedCache(v.cache, 0)
 	invalidateSearchCache(v.cache)
 
 	return 0, "Successfully deleted video and all related data", nil

@@ -58,7 +58,6 @@ export default function WatchLive() {
 
                 setClient(streamClient);
 
-                // Use callId from params
                 if (!callId) {
                     setError("No callId provided in URL.");
                     setLoading(false);

@@ -24,7 +24,6 @@ interface UserProfile {
   isFollowing: boolean;
 }
 
-// Use Playlist type from generated DTO
 type Playlist = PlaylistDto;
 
 type ProfileTab = 'videos' | 'playlists' | 'likes';
@@ -56,7 +55,6 @@ export default function ProfilePage() {
   });
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // Playlist modal state
   const [showPlaylistModal, setShowPlaylistModal] = useState(false);
   const [playlistModalData, setPlaylistModalData] = useState<Playlist | null>(null);
   const [playlistVideos, setPlaylistVideos] = useState<VideoFeed[]>([]);
@@ -248,7 +246,6 @@ export default function ProfilePage() {
     setActiveTab(tab);
   };
 
-  // Handler to open playlist modal and fetch videos
   const handleOpenPlaylistModal = async (playlist: Playlist) => {
     setShowPlaylistModal(true);
     setPlaylistModalData(playlist);
@@ -258,7 +255,6 @@ export default function ProfilePage() {
     setPlaylistError(null);
 
     try {
-      // Fetch each video in the playlist by ID for full details
       const videos: VideoFeed[] = [];
       for (const pv of playlist.videos || []) {
         try {
@@ -267,7 +263,6 @@ export default function ProfilePage() {
             videos.push(res.response.video);
           }
         } catch (err) {
-          // Optionally handle individual video fetch errors
         }
       }
       setPlaylistVideos(videos);
@@ -278,7 +273,6 @@ export default function ProfilePage() {
     setPlaylistVideosLoading(false);
   };
 
-  // Handler to close playlist modal
   const handleClosePlaylistModal = () => {
     setShowPlaylistModal(false);
     setPlaylistModalData(null);
@@ -287,18 +281,16 @@ export default function ProfilePage() {
     setPlaylistError(null);
   };
 
-  // Handler to open video in playlist modal
   const handlePlaylistVideoClick = (video: VideoFeed) => {
-    setActiveVideo(video); // Use the same component/state as video tab
+    setActiveVideo(video);
     setActiveVideoId(video.id);
-    setShowPlaylistModal(false); // Close playlist modal when opening video
+    setShowPlaylistModal(false);
   };
 
-  // Handler to go back to playlist modal from video view
   const handleBackToPlaylistModal = () => {
     setActiveVideo(null);
     setActiveVideoId(null);
-    setShowPlaylistModal(true); // Reopen playlist modal
+    setShowPlaylistModal(true);
   };
 
   useLayoutEffect(() => {
@@ -507,11 +499,9 @@ export default function ProfilePage() {
                             ))}
                           </div>
                         )}
-                        {/* Playlist Modal */}
                         {showPlaylistModal && playlistModalData && (
                           <div className="modal-overlay" style={{ zIndex: 2000 }}>
                             <div className="modal-content" style={{ maxWidth: 600, minHeight: 300, position: "relative" }}>
-                              {/* Fixed Back button for playlist modal */}
                               <button
                                 style={{
                                   position: "fixed",
@@ -535,7 +525,6 @@ export default function ProfilePage() {
                               >
                                 <ArrowLeft size={18} /> Back
                               </button>
-                              {/* Close button (top right) */}
                               <button
                                 style={{
                                   position: "fixed",
@@ -614,7 +603,6 @@ export default function ProfilePage() {
 
                     {activeTab === 'likes' && (
                       <div className="profile-likes">
-                        {/* Liked videos content */}
                         {videos.length === 0 ? (
                           <div className="no-likes">
                             <p>No liked videos yet</p>

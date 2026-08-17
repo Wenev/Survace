@@ -177,7 +177,6 @@ func (s *PlaylistServiceImpl) ReorderVideo(ctx context.Context, playlistId int32
 	if playlist == nil {
 		return int32(codes.NotFound), "Playlist not found", errors.New("playlist not found")
 	}
-	// newOrder is zero-based index (frontend convention)
 	if newOrder < 0 || int(newOrder) >= len(playlist.Videos) {
 		return int32(codes.InvalidArgument), "Invalid order", errors.New("invalid order")
 	}
@@ -194,15 +193,12 @@ func (s *PlaylistServiceImpl) ReorderVideo(ctx context.Context, playlistId int32
 		return int32(codes.NotFound), "Video not found in playlist", errors.New("video not in playlist")
 	}
 	video := playlist.Videos[idx]
-	// Remove video from current position
 	playlist.Videos = append(playlist.Videos[:idx], playlist.Videos[idx+1:]...)
-	// Insert video at newOrder position
 	if int(newOrder) >= len(playlist.Videos) {
 		playlist.Videos = append(playlist.Videos, video)
 	} else {
 		playlist.Videos = append(playlist.Videos[:newOrder], append([]domain.PlaylistVideo{video}, playlist.Videos[newOrder:]...)...)
 	}
-	// Update order fields (should be 1-based for proto compatibility)
 	for i := range playlist.Videos {
 		playlist.Videos[i].Order = int32(i + 1)
 	}
@@ -210,7 +206,6 @@ func (s *PlaylistServiceImpl) ReorderVideo(ctx context.Context, playlistId int32
 	if err != nil {
 		return int32(codes.Internal), "Failed to reorder video", err
 	}
-	// Invalidate cache after reorder
 	helper.InvalidatePlaylistCache(s.cache, playlist.UserID)
 	return int32(codes.OK), "Video reordered successfully", nil
 }

@@ -90,7 +90,6 @@ export default function SettingPage() {
         fetchUserAndSetting();
     }, [currentUser, galactus, navigate]);
 
-    // Only update username and avatar via updateUser
     const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
@@ -162,7 +161,6 @@ export default function SettingPage() {
         }
     };
 
-    // Handle delete account
     const handleDeleteAccount = async () => {
         setError(null);
         setSuccess(null);
@@ -175,12 +173,10 @@ export default function SettingPage() {
         }
     };
 
-    // Back button handler
     const handleBack = () => {
         navigate("/");
     };
 
-    // Individual notification toggles
     const handleNotifFollower = async (checked: boolean) => {
         setNotifFollower(checked);
         try {
@@ -252,7 +248,6 @@ export default function SettingPage() {
                             <div style={{ textAlign: "center", padding: "2rem" }}>Loading...</div>
                         ) : (
                         <form className="settings-form" onSubmit={handleUpdate}>
-                            {/* Username */}
                             <div className="form-group">
                                 <label>Username</label>
                                 <input
@@ -263,7 +258,6 @@ export default function SettingPage() {
                                     disabled={isLoading}
                                 />
                             </div>
-                            {/* Bio */}
                             <div className="form-group">
                                 <label>Bio</label>
                                 <textarea
@@ -273,7 +267,6 @@ export default function SettingPage() {
                                     disabled={isLoading}
                                 />
                             </div>
-                            {/* Avatar URL */}
                             <div className="form-group">
                                 <label>Avatar URL</label>
                                 <input
@@ -283,7 +276,6 @@ export default function SettingPage() {
                                     disabled={isLoading}
                                 />
                             </div>
-                            {/* Enable Notifications - Follower */}
                             <div className="form-group switch-group">
                                 <label>
                                     <Bell size={16} style={{ marginRight: 4 }} />
@@ -296,7 +288,6 @@ export default function SettingPage() {
                                     disabled={isLoading}
                                 />
                             </div>
-                            {/* Enable Notifications - Message */}
                             <div className="form-group switch-group">
                                 <label>
                                     <MessageCircle size={16} style={{ marginRight: 4 }} />
@@ -309,7 +300,6 @@ export default function SettingPage() {
                                     disabled={isLoading}
                                 />
                             </div>
-                            {/* Enable Notifications - Mentions */}
                             <div className="form-group switch-group">
                                 <label>
                                     <Bell size={16} style={{ marginRight: 4 }} />
@@ -322,7 +312,6 @@ export default function SettingPage() {
                                     disabled={isLoading}
                                 />
                             </div>
-                            {/* Visibility */}
                             <div className="form-group switch-group">
                                 <label>
                                     {visibility === "public" ? <Eye size={16} /> : <EyeOff size={16} />}
@@ -337,7 +326,6 @@ export default function SettingPage() {
                                     <option value="private">Private</option>
                                 </select>
                             </div>
-                            {/* Private Account */}
                             <div className="form-group switch-group">
                                 <label>
                                     {privateAccount ? <Lock size={16} /> : <Unlock size={16} />}
@@ -350,7 +338,6 @@ export default function SettingPage() {
                                     disabled={isLoading}
                                 />
                             </div>
-                            {/* Edit Chat Restriction */}
                             <div className="form-group switch-group">
                                 <label>
                                     {editChatRestriction ? <MessageCircleOff size={16} /> : <MessageCircle size={16} />}
@@ -363,7 +350,6 @@ export default function SettingPage() {
                                     disabled={isLoading}
                                 />
                             </div>
-                            {/* Save Button */}
                             <div className="form-actions">
                                 <button type="submit" className="edit-profile-button" disabled={isLoading}>
                                     <Settings size={16} /> Save Changes
@@ -373,7 +359,6 @@ export default function SettingPage() {
                             {error && <div className="profile-error">{error}</div>}
                         </form>
                         )}
-                        {/* Delete Account */}
                         <div className="delete-account-section">
                             <button
                                 className="delete-account-button"

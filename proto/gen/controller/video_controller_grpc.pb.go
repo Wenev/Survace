@@ -62,7 +62,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BrainrotServiceClient interface {
-	// Video
 	UploadVideo(ctx context.Context, in *dto.UploadVideoRequest, opts ...grpc.CallOption) (*dto.UploadVideoResponse, error)
 	GetVideoByID(ctx context.Context, in *dto.GetVideoByIDRequest, opts ...grpc.CallOption) (*dto.GetVideoByIDResponse, error)
 	GetUserVideo(ctx context.Context, in *dto.GetUserVideoRequest, opts ...grpc.CallOption) (*dto.GetUserVideoResponse, error)
@@ -70,27 +69,21 @@ type BrainrotServiceClient interface {
 	GetUserVideoAndDraft(ctx context.Context, in *dto.GetUserVideoAndDraftRequest, opts ...grpc.CallOption) (*dto.GetUserVideoAndDraftResponse, error)
 	DeleteVideoByID(ctx context.Context, in *dto.DeleteVideoByIDRequest, opts ...grpc.CallOption) (*dto.DeleteVideoByIDResponse, error)
 	UpdateVideo(ctx context.Context, in *dto.UpdateVideoRequest, opts ...grpc.CallOption) (*dto.UpdateVideoResponse, error)
-	// Comment
 	AddComment(ctx context.Context, in *dto.AddCommentRequest, opts ...grpc.CallOption) (*dto.AddCommentResponse, error)
 	GetCommentsByVideo(ctx context.Context, in *dto.GetCommentsByVideoRequest, opts ...grpc.CallOption) (*dto.GetCommentsByVideoResponse, error)
 	DeleteComment(ctx context.Context, in *dto.DeleteCommentRequest, opts ...grpc.CallOption) (*dto.DeleteCommentResponse, error)
-	// Reply
 	AddReply(ctx context.Context, in *dto.AddReplyRequest, opts ...grpc.CallOption) (*dto.AddReplyResponse, error)
 	GetRepliesByComment(ctx context.Context, in *dto.GetRepliesByCommentRequest, opts ...grpc.CallOption) (*dto.GetRepliesByCommentResponse, error)
 	DeleteReply(ctx context.Context, in *dto.DeleteReplyRequest, opts ...grpc.CallOption) (*dto.DeleteReplyResponse, error)
-	// Like Video
 	LikeVideo(ctx context.Context, in *dto.LikeVideoRequest, opts ...grpc.CallOption) (*dto.LikeVideoResponse, error)
 	UnlikeVideo(ctx context.Context, in *dto.UnlikeVideoRequest, opts ...grpc.CallOption) (*dto.UnlikeVideoResponse, error)
 	IsVideoLiked(ctx context.Context, in *dto.IsVideoLikedRequest, opts ...grpc.CallOption) (*dto.IsVideoLikedResponse, error)
-	// Like Comment
 	LikeComment(ctx context.Context, in *dto.LikeCommentRequest, opts ...grpc.CallOption) (*dto.LikeCommentResponse, error)
 	UnlikeComment(ctx context.Context, in *dto.UnlikeCommentRequest, opts ...grpc.CallOption) (*dto.UnlikeCommentResponse, error)
 	IsCommentLiked(ctx context.Context, in *dto.IsCommentLikedRequest, opts ...grpc.CallOption) (*dto.IsCommentLikedResponse, error)
-	// Like Reply
 	LikeReply(ctx context.Context, in *dto.LikeReplyRequest, opts ...grpc.CallOption) (*dto.LikeReplyResponse, error)
 	UnlikeReply(ctx context.Context, in *dto.UnlikeReplyRequest, opts ...grpc.CallOption) (*dto.UnlikeReplyResponse, error)
 	IsReplyLiked(ctx context.Context, in *dto.IsReplyLikedRequest, opts ...grpc.CallOption) (*dto.IsReplyLikedResponse, error)
-	// WatchHistory & Feed
 	WatchVideo(ctx context.Context, in *dto.WatchVideoRequest, opts ...grpc.CallOption) (*dto.WatchVideoResponse, error)
 	GetRandomFeedLoggedOut(ctx context.Context, in *dto.GetRandomFeedLoggedOutRequest, opts ...grpc.CallOption) (*dto.GetRandomFeedLoggedOutResponse, error)
 	GetRandomFeed(ctx context.Context, in *dto.GetRandomFeedRequest, opts ...grpc.CallOption) (*dto.GetRandomFeedResponse, error)
@@ -479,7 +472,6 @@ func (c *brainrotServiceClient) UpdatePlaylistTitle(ctx context.Context, in *dto
 // All implementations must embed UnimplementedBrainrotServiceServer
 // for forward compatibility.
 type BrainrotServiceServer interface {
-	// Video
 	UploadVideo(context.Context, *dto.UploadVideoRequest) (*dto.UploadVideoResponse, error)
 	GetVideoByID(context.Context, *dto.GetVideoByIDRequest) (*dto.GetVideoByIDResponse, error)
 	GetUserVideo(context.Context, *dto.GetUserVideoRequest) (*dto.GetUserVideoResponse, error)
@@ -487,27 +479,21 @@ type BrainrotServiceServer interface {
 	GetUserVideoAndDraft(context.Context, *dto.GetUserVideoAndDraftRequest) (*dto.GetUserVideoAndDraftResponse, error)
 	DeleteVideoByID(context.Context, *dto.DeleteVideoByIDRequest) (*dto.DeleteVideoByIDResponse, error)
 	UpdateVideo(context.Context, *dto.UpdateVideoRequest) (*dto.UpdateVideoResponse, error)
-	// Comment
 	AddComment(context.Context, *dto.AddCommentRequest) (*dto.AddCommentResponse, error)
 	GetCommentsByVideo(context.Context, *dto.GetCommentsByVideoRequest) (*dto.GetCommentsByVideoResponse, error)
 	DeleteComment(context.Context, *dto.DeleteCommentRequest) (*dto.DeleteCommentResponse, error)
-	// Reply
 	AddReply(context.Context, *dto.AddReplyRequest) (*dto.AddReplyResponse, error)
 	GetRepliesByComment(context.Context, *dto.GetRepliesByCommentRequest) (*dto.GetRepliesByCommentResponse, error)
 	DeleteReply(context.Context, *dto.DeleteReplyRequest) (*dto.DeleteReplyResponse, error)
-	// Like Video
 	LikeVideo(context.Context, *dto.LikeVideoRequest) (*dto.LikeVideoResponse, error)
 	UnlikeVideo(context.Context, *dto.UnlikeVideoRequest) (*dto.UnlikeVideoResponse, error)
 	IsVideoLiked(context.Context, *dto.IsVideoLikedRequest) (*dto.IsVideoLikedResponse, error)
-	// Like Comment
 	LikeComment(context.Context, *dto.LikeCommentRequest) (*dto.LikeCommentResponse, error)
 	UnlikeComment(context.Context, *dto.UnlikeCommentRequest) (*dto.UnlikeCommentResponse, error)
 	IsCommentLiked(context.Context, *dto.IsCommentLikedRequest) (*dto.IsCommentLikedResponse, error)
-	// Like Reply
 	LikeReply(context.Context, *dto.LikeReplyRequest) (*dto.LikeReplyResponse, error)
 	UnlikeReply(context.Context, *dto.UnlikeReplyRequest) (*dto.UnlikeReplyResponse, error)
 	IsReplyLiked(context.Context, *dto.IsReplyLikedRequest) (*dto.IsReplyLikedResponse, error)
-	// WatchHistory & Feed
 	WatchVideo(context.Context, *dto.WatchVideoRequest) (*dto.WatchVideoResponse, error)
 	GetRandomFeedLoggedOut(context.Context, *dto.GetRandomFeedLoggedOutRequest) (*dto.GetRandomFeedLoggedOutResponse, error)
 	GetRandomFeed(context.Context, *dto.GetRandomFeedRequest) (*dto.GetRandomFeedResponse, error)

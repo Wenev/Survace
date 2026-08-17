@@ -92,6 +92,6 @@ func (s *NotificationServiceImpl) CreateNotification(ctx context.Context, notif 
 		return int32(codes.Internal), "Failed to create notification", err
 	}
 	cacheKey := fmt.Sprintf("notifications:user:%d", notif.UserID)
-	s.cache.Delete(cacheKey) // Invalidate cache
+	s.cache.Delete(cacheKey)
 	return int32(codes.OK), "Notification created successfully", nil
 }

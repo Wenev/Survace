@@ -57,7 +57,6 @@ func (s *LikeServiceImpl) LikeVideo(ctx context.Context, userId int32, videoId i
 	if err := s.likeRepo.Create(ctx, newLike); err != nil {
 		return int32(codes.Internal), "Failed to like video", err
 	}
-	// Invalidate like count cache for this video
 	likeCacheKey := fmt.Sprintf("like:video:%d", videoId)
 	s.cache.Delete(likeCacheKey)
 	helper.InvalidateFeedCache(s.cache, userId)
@@ -93,7 +92,6 @@ func (s *LikeServiceImpl) UnlikeVideo(ctx context.Context, userId int32, videoId
 	if err := s.likeRepo.Delete(ctx, likeToDelete.ID); err != nil {
 		return int32(codes.Internal), "Failed to unlike video", err
 	}
-	// Invalidate like count cache for this video
 	likeCacheKey := fmt.Sprintf("like:video:%d", videoId)
 	s.cache.Delete(likeCacheKey)
 	helper.InvalidateFeedCache(s.cache, userId)

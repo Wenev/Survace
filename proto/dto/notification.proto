@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-//option go_package = "github.com/Wenev/Survace/notification-service/internal/adapters/inbound/dto";
 option go_package = "github.com/Wenev/Survace/proto/gen/dto";
 import "google/protobuf/timestamp.proto";
 

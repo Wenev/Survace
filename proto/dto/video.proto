@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-//option go_package = "github.com/Wenev/Survace/brainrot-service/internal/adapters/inbound/dto";
 option go_package = "github.com/Wenev/Survace/proto/gen/dto";
 import "google/protobuf/timestamp.proto";
 
@@ -73,8 +72,8 @@ message Video {
   string visibility = 7;
   google.protobuf.Timestamp createdAt = 8;
   string thumbnailUrl = 9;
-  google.protobuf.Timestamp postedAt = 10; // Added
-  bool isDraft = 11; // Added
+  google.protobuf.Timestamp postedAt = 10;
+  bool isDraft = 11;
 }
 
 message VideoFeed {
@@ -90,8 +89,8 @@ message VideoFeed {
   int32 likeCount = 10;
   int32 viewCount = 11;
   string thumbnailUrl = 12;
-  google.protobuf.Timestamp postedAt = 13; // Added
-  bool isDraft = 14; // Added
+  google.protobuf.Timestamp postedAt = 13;
+  bool isDraft = 14;
 }
 
 message AddCommentRequest {
@@ -309,7 +308,7 @@ message UpdateVideoRequest {
   string objectName = 5;
   bool enableComment = 6;
   string visibility = 7;
-  bytes thumbnail = 8; // Use blob for thumbnail upload
+  bytes thumbnail = 8;
   google.protobuf.Timestamp postedAt = 9;
   bool isDraft = 10;
 }
@@ -320,7 +319,6 @@ message UpdateVideoResponse {
   Video video = 3;
 }
 
-// Playlist messages
 message CreatePlaylistRequest {
   int32 userId = 1;
   string title = 2;

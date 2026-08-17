@@ -23,16 +23,7 @@ export const routes = createBrowserRouter([
     {
         path: "/signup",
         element: <RegisterPage />,
-        children: [
-            // {
-            //     index: true,
-            //     element: <HomePage />,
-            // },
-            // {
-            //     path: "signup",
-            //     element: <SignupPage />,
-            // },
-        ],
+        children: [],
     },
     {
         path: "/login",
@@ -96,6 +87,5 @@ export const routes = createBrowserRouter([
     },
     {
         path: "/playlist/:playlistId",
-        // element: <EditPlaylist />
     }
 ])

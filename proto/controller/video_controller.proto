@@ -1,21 +1,9 @@
 syntax = "proto3";
 
-//option go_package = "github.com/Wenev/Survace/brainrot-service/internal/adapters/inbound/controller";
 option go_package = "github.com/Wenev/Survace/proto/gen/controller";
 import "dto/video.proto";
-//
-//service BrainrotService {
-//  rpc UploadVideo(UploadVideoRequest) returns (UploadVideoResponse);
-//  rpc GetVideoByID(GetVideoByIDRequest) returns (GetVideoByIDResponse);
-//  rpc GetUserVideo(GetUserVideoRequest) returns (GetUserVideoResponse);
-//  rpc DeleteUserVideo(DeleteUserVideoRequest) returns (DeleteUserVideoResponse);
-//  rpc CreateComment(CreateCommentRequest) returns (CreateCommentResponse);
-//  rpc LikeVideo(LikeVideoRequest) returns (LikeVideoResponse);
-//  rpc GetUserWatchHistory(GetUserWatchHistory) returns (Get)
-//}
 
 service BrainrotService {
-  // Video
   rpc UploadVideo(UploadVideoRequest) returns (UploadVideoResponse);
   rpc GetVideoByID(GetVideoByIDRequest) returns (GetVideoByIDResponse);
   rpc GetUserVideo(GetUserVideoRequest) returns (GetUserVideoResponse);
@@ -24,32 +12,26 @@ service BrainrotService {
   rpc DeleteVideoByID(DeleteVideoByIDRequest) returns (DeleteVideoByIDResponse);
   rpc UpdateVideo(UpdateVideoRequest) returns (UpdateVideoResponse);
 
-  // Comment
   rpc AddComment(AddCommentRequest) returns (AddCommentResponse);
   rpc GetCommentsByVideo(GetCommentsByVideoRequest) returns (GetCommentsByVideoResponse);
   rpc DeleteComment(DeleteCommentRequest) returns (DeleteCommentResponse);
 
-  // Reply
   rpc AddReply(AddReplyRequest) returns (AddReplyResponse);
   rpc GetRepliesByComment(GetRepliesByCommentRequest) returns (GetRepliesByCommentResponse);
   rpc DeleteReply(DeleteReplyRequest) returns (DeleteReplyResponse);
 
-  // Like Video
   rpc LikeVideo(LikeVideoRequest) returns (LikeVideoResponse);
   rpc UnlikeVideo(UnlikeVideoRequest) returns (UnlikeVideoResponse);
   rpc IsVideoLiked(IsVideoLikedRequest) returns (IsVideoLikedResponse);
 
-  // Like Comment
   rpc LikeComment(LikeCommentRequest) returns (LikeCommentResponse);
   rpc UnlikeComment(UnlikeCommentRequest) returns (UnlikeCommentResponse);
   rpc IsCommentLiked(IsCommentLikedRequest) returns (IsCommentLikedResponse);
 
-  // Like Reply
   rpc LikeReply(LikeReplyRequest) returns (LikeReplyResponse);
   rpc UnlikeReply(UnlikeReplyRequest) returns (UnlikeReplyResponse);
   rpc IsReplyLiked(IsReplyLikedRequest) returns (IsReplyLikedResponse);
 
-  //WatchHistory & Feed
   rpc WatchVideo(WatchVideoRequest) returns (WatchVideoResponse);
   rpc GetRandomFeedLoggedOut(GetRandomFeedLoggedOutRequest) returns (GetRandomFeedLoggedOutResponse);
   rpc GetRandomFeed(GetRandomFeedRequest) returns (GetRandomFeedResponse);

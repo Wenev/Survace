@@ -77,7 +77,7 @@ func main() {
 	address, err := brainrotgrpc.NewGalactusClient("galactus:3000")
 	if err != nil {
 		log.Printf("Failed to connect to galactus: %v", err)
-		address = nil // fallback to nil if error
+		address = nil
 	}
 	server := grpc.NewGrpcServer(port, videoService, playlistService, commentService, replyService, likeService, likeCommentService,
 		likeReplyService, address)

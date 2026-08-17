@@ -8,7 +8,6 @@ import ErrorToast from "../component/ErrorToast";
 import "../style/upload.css";
 import type { Video, VideoFeed } from "../generated/dto/video.ts";
 
-// Add PlaylistVideoWithDetails type for local use
 type PlaylistVideoWithDetails = {
     playlistId: number;
     videoId: number;
@@ -32,17 +31,14 @@ export default function CreatePlaylist() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
-    // Playlists
     const [playlists, setPlaylists] = useState<any[]>([]);
     const [loadingPlaylists, setLoadingPlaylists] = useState(false);
 
-    // Create modal
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [createTitle, setCreateTitle] = useState("");
     const [createMessage, setCreateMessage] = useState("");
     const [createLoading, setCreateLoading] = useState(false);
 
-    // Edit modal
     const [showEditModal, setShowEditModal] = useState(false);
     const [editPlaylist, setEditPlaylist] = useState<Playlist | null>(null);
     const [editTitle, setEditTitle] = useState("");
@@ -80,7 +76,6 @@ export default function CreatePlaylist() {
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-    // Helper to refetch playlists
     const refetchPlaylists = async () => {
         setLoadingPlaylists(true);
         try {
@@ -93,7 +88,6 @@ export default function CreatePlaylist() {
         setLoadingPlaylists(false);
     };
 
-    // Create playlist modal handlers
     const handleCreatePlaylist = async (e: React.FormEvent) => {
         e.preventDefault();
         setCreateMessage("");
@@ -114,7 +108,6 @@ export default function CreatePlaylist() {
         setCreateLoading(false);
     };
 
-    // Edit playlist modal handlers
     const openEditModal = async (playlistId: number) => {
         setEditLoading(true);
         setEditMessage("");
@@ -126,7 +119,6 @@ export default function CreatePlaylist() {
             setEditTitle(playlist?.title || "");
             let playlistVideos: PlaylistVideoWithDetails[] = playlist?.videos || [];
 
-            // Always fetch video details by videoId for each playlist video
             const videosWithDetails: PlaylistVideoWithDetails[] = await Promise.all(
                 playlistVideos.map(async (pv) => {
                     try {
@@ -154,7 +146,6 @@ export default function CreatePlaylist() {
         setEditLoading(false);
     };
 
-    // Add video to playlist handler
     const handleAddVideoToPlaylist = useCallback(async (videoId: number) => {
         if (!editPlaylist) return;
         setEditLoading(true);
@@ -165,7 +156,6 @@ export default function CreatePlaylist() {
                 videoId,
                 order: editVideos.length,
             });
-            // Refresh playlist videos
             const res = await brainrot.getPlaylistById({ playlistId: editPlaylist.id });
             const playlist: Playlist = res.response?.playlist;
             let playlistVideos: PlaylistVideoWithDetails[] = playlist?.videos || [];
@@ -189,19 +179,16 @@ export default function CreatePlaylist() {
         setEditLoading(false);
     }, [editPlaylist, editVideos, suggestedVideos, brainrot]);
 
-    // Edit title change handler
     const handleEditTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditTitle(e.target.value);
     };
 
-    // Drag-and-drop reorder logic
     const handleDragStart = (idx: number) => {
         setEditVideos(videos =>
             videos.map((v, i) => ({ ...v, dragging: i === idx }))
         );
     };
     const handleDragOver = (idx: number) => {
-        // No-op, just needed for drop
     };
     const handleDrop = (fromIdx: number, toIdx: number) => {
         setEditVideos(prevVideos =>
@@ -209,19 +196,16 @@ export default function CreatePlaylist() {
         );
     };
 
-    // Save edited playlist handler
     const handleEditSave = async () => {
         setEditLoading(true);
         setEditMessage("");
         try {
-            // Update playlist title if changed
             if (editPlaylist && editTitle !== editPlaylist.title) {
                 await brainrot.updatePlaylistTitle({
                     playlistId: editPlaylist.id,
                     title: editTitle,
                 });
             }
-            // Reorder videos
             for (let i = 0; i < editVideos.length; i++) {
                 const pv = editVideos[i];
                 await brainrot.reorderVideo({
@@ -240,7 +224,6 @@ export default function CreatePlaylist() {
         setEditLoading(false);
     };
 
-    // Delete playlist handler
     const handleDeletePlaylist = async () => {
         if (!editPlaylist) return;
         setDeleteLoading(true);
@@ -261,7 +244,6 @@ export default function CreatePlaylist() {
         setDeleteLoading(false);
     };
 
-    // Helper function to reorder array items
     function reorder<T>(arr: T[], from: number, to: number): T[] {
         const updated = [...arr];
         const [removed] = updated.splice(from, 1);
@@ -311,7 +293,6 @@ export default function CreatePlaylist() {
                     </div>
                 )}
 
-                {/* Create Playlist Modal */}
                 {showCreateModal && (
                     <div className="modal-overlay">
                         <div className="modal-content">
@@ -351,7 +332,6 @@ export default function CreatePlaylist() {
                     </div>
                 )}
 
-                {/* Edit Playlist Modal */}
                 {showEditModal && editPlaylist && (
                     <div className="modal-overlay">
                         <div
@@ -406,7 +386,6 @@ export default function CreatePlaylist() {
                                                     color: "var(--color-text)"
                                                 }}
                                             >
-                                                {/* Video thumbnail */}
                                                 <img
                                                     src={pv.video?.thumbnailUrl || ""}
                                                     alt={pv.video?.title || "Video thumbnail"}
@@ -419,7 +398,6 @@ export default function CreatePlaylist() {
                                                         background: "var(--color-bg-secondary)"
                                                     }}
                                                 />
-                                                {/* Video title */}
                                                 <span style={{ fontWeight: 500, flex: 1, minWidth: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                                     {pv.video?.title || "Loading..."}
                                                 </span>
@@ -428,7 +406,6 @@ export default function CreatePlaylist() {
                                     )}
                                 </ul>
                             </div>
-                            {/* Suggest videos if playlist is empty */}
                             {editVideos.length === 0 && (
                                 <div style={{ marginTop: "16px" }}>
                                     <strong style={{ color: "var(--color-text)" }}>Suggested Videos to Add:</strong>
@@ -510,7 +487,6 @@ export default function CreatePlaylist() {
                                     Delete Playlist
                                 </button>
                             </div>
-                            {/* Remove inline error message for edit actions, use toast instead */}
                         </div>
                     </div>
                 )}

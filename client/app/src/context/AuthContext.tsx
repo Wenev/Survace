@@ -6,7 +6,6 @@ import type {
     RegisterRequest,
     RegisterResponse, User
 } from "../generated/dto/galactus.ts";
-// import type {User} from "../types/type.ts";
 import {createContext, type FC, type ReactNode, useContext, useEffect, useState} from "react";
 import {useGrpc} from "./ClientContext.tsx";
 import {useNavigate} from "react-router-dom";

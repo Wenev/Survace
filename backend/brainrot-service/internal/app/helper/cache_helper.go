@@ -10,9 +10,7 @@ func InvalidateFeedCache(c *cache.MemcachedConnection, userIds ...int32) {
 	maxOffset := 100
 	for _, limit := range limits {
 		for offset := 0; offset < maxOffset; offset += limit {
-			// Invalidate for logged-out
 			c.Delete(feedCacheKey(nil, limit, offset))
-			// Invalidate for each user if provided
 			for _, userId := range userIds {
 				c.Delete(feedCacheKey(&userId, limit, offset))
 			}

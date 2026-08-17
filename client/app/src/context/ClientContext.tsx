@@ -39,7 +39,6 @@ type GrpcClientContext = {
     useNotificationMutation: typeof useNotificationMutation,
 }
 
-// Generic query hook for any gRPC client
 function useGrpcQuery<
     TClient,
     TKey extends keyof TClient,
@@ -62,7 +61,6 @@ function useGrpcQuery<
     })
 }
 
-// Generic mutation hook for any gRPC client
 function useGrpcMutation<
     TClient,
     TKey extends keyof TClient,
@@ -83,7 +81,6 @@ function useGrpcMutation<
     })
 }
 
-// Specific hooks for each controller
 function useVideoQuery<TKey extends keyof BrainrotServiceClient, TReq extends object, TRes>(key: TKey, req: TReq, options?: any) {
     const { brainrot } = useGrpc()
     return useGrpcQuery(brainrot, key, req, options)

@@ -12,7 +12,7 @@ type Video struct {
 	EnableComment bool
 	Visibility    string
 	ThumbnailUrl  string
-	IsDraft       bool // Exported
+	IsDraft       bool
 	CreatedAt     time.Time
-	PostedAt      time.Time // Exported
+	PostedAt      time.Time
 }

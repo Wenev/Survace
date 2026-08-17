@@ -697,8 +697,8 @@ type Video struct {
 	Visibility    string                 `protobuf:"bytes,7,opt,name=visibility,proto3" json:"visibility,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
 	ThumbnailUrl  string                 `protobuf:"bytes,9,opt,name=thumbnailUrl,proto3" json:"thumbnailUrl,omitempty"`
-	PostedAt      *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=postedAt,proto3" json:"postedAt,omitempty"` // Added
-	IsDraft       bool                   `protobuf:"varint,11,opt,name=isDraft,proto3" json:"isDraft,omitempty"`  // Added
+	PostedAt      *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=postedAt,proto3" json:"postedAt,omitempty"`
+	IsDraft       bool                   `protobuf:"varint,11,opt,name=isDraft,proto3" json:"isDraft,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -824,8 +824,8 @@ type VideoFeed struct {
 	LikeCount     int32                  `protobuf:"varint,10,opt,name=likeCount,proto3" json:"likeCount,omitempty"`
 	ViewCount     int32                  `protobuf:"varint,11,opt,name=viewCount,proto3" json:"viewCount,omitempty"`
 	ThumbnailUrl  string                 `protobuf:"bytes,12,opt,name=thumbnailUrl,proto3" json:"thumbnailUrl,omitempty"`
-	PostedAt      *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=postedAt,proto3" json:"postedAt,omitempty"` // Added
-	IsDraft       bool                   `protobuf:"varint,14,opt,name=isDraft,proto3" json:"isDraft,omitempty"`  // Added
+	PostedAt      *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=postedAt,proto3" json:"postedAt,omitempty"`
+	IsDraft       bool                   `protobuf:"varint,14,opt,name=isDraft,proto3" json:"isDraft,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3263,7 +3263,7 @@ type UpdateVideoRequest struct {
 	ObjectName    string                 `protobuf:"bytes,5,opt,name=objectName,proto3" json:"objectName,omitempty"`
 	EnableComment bool                   `protobuf:"varint,6,opt,name=enableComment,proto3" json:"enableComment,omitempty"`
 	Visibility    string                 `protobuf:"bytes,7,opt,name=visibility,proto3" json:"visibility,omitempty"`
-	Thumbnail     []byte                 `protobuf:"bytes,8,opt,name=thumbnail,proto3" json:"thumbnail,omitempty"` // Use blob for thumbnail upload
+	Thumbnail     []byte                 `protobuf:"bytes,8,opt,name=thumbnail,proto3" json:"thumbnail,omitempty"`
 	PostedAt      *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=postedAt,proto3" json:"postedAt,omitempty"`
 	IsDraft       bool                   `protobuf:"varint,10,opt,name=isDraft,proto3" json:"isDraft,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -3430,7 +3430,6 @@ func (x *UpdateVideoResponse) GetVideo() *Video {
 	return nil
 }
 
-// Playlist messages
 type CreatePlaylistRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int32                  `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`

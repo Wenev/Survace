@@ -55,7 +55,6 @@ func (s *CommentServiceImpl) GetCommentsByVideo(ctx context.Context, videoId int
 		}
 		replyCounts[i] = replyCount
 
-		// Try to get like count from cache first
 		likeCacheKey := fmt.Sprintf("likecomments:comment:%d", comment.ID)
 		var likeCount int64
 		if err := s.cache.Get(likeCacheKey, &likeCount); err == nil {

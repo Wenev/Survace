@@ -73,7 +73,6 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
                     const res = await social.listFollowing({ userId: user.userId });
                     ids = (res.response?.data as FollowingData[] || []).map((f) => f.followeeId);
                 }
-                // Fetch user info for each id
                 const users: FriendOrFollowing[] = await Promise.all(
                     ids.map(async (id) => {
                         try {
@@ -95,13 +94,12 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
                         }
                     })
                 );
-                // Check live status for each user
                 let liveMap: Record<number, boolean> = {};
                 try {
                     const liveRes = await stream.listLiveStreams({});
                     const liveIds = (liveRes.response?.streams || []).map((s: { userId: string }) => Number(s.userId));
                     liveMap = Object.fromEntries(liveIds.map((id) => [id, true]));
-                } catch (e) { /* ignore */ }
+                } catch (e) { }
                 setList(users.map(u => ({ ...u, isLive: !!liveMap[u.id] })));
                 setSelectedId(users.length > 0 ? users[0].id : null);
             } catch (e: any) {
@@ -112,7 +110,6 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
         fetchList();
     }, [user, mode, galactus, social, stream]);
 
-    // Fetch videos for selected user with infinite scroll
     const fetchFeed = useCallback(async (reset = false) => {
         if (!selectedId) return;
         setLoadingVideos(true);
@@ -131,7 +128,6 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
                 setHasMore(true);
             } else {
                 if (newVideos.length === 0) {
-                    // If no new videos, repeat from the start (cycle through cachedVideos)
                     if (cachedVideos.length > 0) {
                         let nextBatch = [];
                         if (cycleIndex + 10 <= cachedVideos.length) {
@@ -144,7 +140,7 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
                         }
                         setVideos(prev => [...prev, ...nextBatch]);
                         setCycleIndex((prev) => (prev + 10) % cachedVideos.length);
-                        setHasMore(true); // Keep hasMore true to allow infinite cycling
+                        setHasMore(true);
                     } else {
                         setHasMore(false);
                     }
@@ -183,13 +179,10 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
         fetchFeed();
     }, [page]);
 
-    // Add state for currentIndex to track which video is focused
-    // Scroll to video when currentIndex changes
     useEffect(() => {
         if (videos.length === 0) return;
         const videoId = videos[currentIndex]?.id;
         if (videoId !== undefined) {
-            // Optionally scroll into view
             const el = document.querySelector(`[data-video-id='${videoId}']`);
             if (el) {
                 el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -197,7 +190,6 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
         }
     }, [currentIndex, videos]);
 
-    // Up/Down button handlers
     const handleUp = () => {
         setCurrentIndex((prev) => {
             const newIdx = Math.max(prev - 1, 0);
@@ -213,7 +205,6 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
         });
     };
 
-    // Sync scroll with button and manual scroll
     const scrollToVideo = (idx: number) => {
         const videoId = videos[idx]?.id;
         if (videoId !== undefined) {
@@ -224,7 +215,6 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
         }
     };
 
-    // Listen for scroll events to update currentIndex
     useEffect(() => {
         const feedEl = document.querySelector('.vertical-feed');
         if (!feedEl) return;
@@ -246,7 +236,6 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
         return () => feedEl.removeEventListener('scroll', handleScroll);
     }, [videos.length]);
 
-    // Reset currentIndex when videos change
     useEffect(() => {
         setCurrentIndex(0);
     }, [videos]);
@@ -260,12 +249,10 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
             )
         );
     };
-    // Determine CSS classes based on mode
-    const wrapperClass = "friend-following-feed"; // Use a single wrapper for sticky header
+    const wrapperClass = "friend-following-feed";
 
     return (
         <div className={wrapperClass} style={{ flexDirection: "column", position: "relative" }}>
-            {/* Sticky user list at top */}
             <div
                 className="side-scroll-list"
                 style={{
@@ -281,7 +268,6 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
                 {loading ? (
                     <div style={{ padding: 16 }}>Loading...</div>
                 ) : (
-                    // Change flexDirection to row for horizontal user list
                     <div className="side-scroll-inner" style={{ display: "flex", flexDirection: "row", gap: 16, overflowX: "auto" }}>
                         {list.map((item) => (
                             <div
@@ -340,7 +326,6 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
                     </div>
                 )}
             </div>
-            {/* Video feed below user list */}
             <div className="vertical-feed">
                 {loadingVideos ? (
                     <div style={{ padding: 24 }}>Loading videos...</div>
@@ -365,11 +350,9 @@ export default function FriendFollowingFeed({ mode }: FriendFollowingFeedProps) 
                         <div ref={loadingRef} className="loading-trigger" />
                     </div>
                 )}
-                {/* Error message */}
                 {error && (
                     <div style={{ color: "red", marginTop: 12, textAlign: "center" }}>{error}</div>
                 )}
-                {/* Up/Down buttons fixed on right */}
                 <div className="traverse-btn-group">
                     <button
                         className="traverse-btn up"

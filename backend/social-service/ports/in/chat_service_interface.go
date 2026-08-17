@@ -11,5 +11,4 @@ type ChatService interface {
 	GetChatWithUser(ctx context.Context, userId int32, otherUserId int32) (int32, string, []*domain.Message, error)
 	UnsendMessage(ctx context.Context, messageId int32, senderId int32) (int32, string, error)
 	ListUserMessage(ctx context.Context, userId int32) (int32, string, []int32, error)
-	//GetLatestMessagesFromFriends(ctx context.Context, userId int32) ([]*domain.Message, error)
 }

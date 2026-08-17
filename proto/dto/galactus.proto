@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-//option go_package = "github.com/Wenev/Survace/galactus/internal/adapters/inbound/dto";
 option go_package = "github.com/Wenev/Survace/proto/gen/dto";
 import "google/protobuf/timestamp.proto";
 
@@ -94,7 +93,6 @@ message FindByUsernameResponse {
   User user = 3;
 }
 
-// Setting messages
 message CreateSettingRequest {
   int32 user_id = 1;
 }
@@ -106,7 +104,7 @@ message EnableSettingRequest {
 
 message EditChatRestrictionRequest {
   int32 user_id = 1;
-  string chat_restriction = 2; // friends, everyone, none
+  string chat_restriction = 2;
 }
 
 message DeleteAccountRequest {

@@ -85,7 +85,6 @@ export default function ChatWindow({ friendId }: { friendId: number | null }){
                             if (event && event.event && event.event.oneofKind === "message" && event.event.message) {
                                 const temp = event.event.message;
                                 setMessages(prev => {
-                                    // Remove typing bubble if present before pushing new message
                                     return prev.filter(m => m.id !== -9999).concat(event.event.message);
                                 });
                                 const senderId = event.event.message.senderId;
@@ -119,9 +118,7 @@ export default function ChatWindow({ friendId }: { friendId: number | null }){
                                 const typingId = event.event.typing.senderId;
                                 if (typingId !== user?.userId) {
                                     setTypingUserId(typingId);
-                                    // Push typing bubble if not present
                                     setMessages(prev => {
-                                        // Only add if not already present
                                         if (!prev.some(m => m.id === -9999)) {
                                             return [
                                                 ...prev,
@@ -139,7 +136,6 @@ export default function ChatWindow({ friendId }: { friendId: number | null }){
                                     if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
                                     typingTimeoutRef.current = setTimeout(() => {
                                         setTypingUserId(null);
-                                        // Remove typing bubble
                                         setMessages(prev => prev.filter(m => m.id !== -9999));
                                     }, 2000);
                                 }
@@ -151,7 +147,6 @@ export default function ChatWindow({ friendId }: { friendId: number | null }){
                         }
                     } catch (err) {
                         if (!cancelled) {
-                            // Attempt reconnection after delay
                             if (reconnectTimeout) clearTimeout(reconnectTimeout);
                             reconnectTimeout = setTimeout(() => {
                                 if (!cancelled) {
@@ -228,7 +223,6 @@ export default function ChatWindow({ friendId }: { friendId: number | null }){
     const handleUnsend = async (messageId: number) => {
         if (!user || !friendId) return;
         try {
-            // Use unary unsendMessage instead of sending an unsend event
             const res = await social.unsendMessage({
                 messageId,
                 userId: user.userId,
@@ -276,7 +270,6 @@ export default function ChatWindow({ friendId }: { friendId: number | null }){
                     ))
                 ) : (
                     messages.map((msg, i) => {
-                        // Typing bubble: id === -9999
                         const isTypingBubble = msg.id === -9999;
                         const profile = userProfiles[msg.senderId] || { username: "Unknown", avatarUrl: defaultAvatar };
                         const isSelf = msg.senderId === user?.userId;

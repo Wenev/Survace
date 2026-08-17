@@ -37,7 +37,6 @@ const ChatList = ({ selectedId, onSelect }: {
             }
             setLoading(true);
             try {
-                // Use listUserMessage to fetch chat partners
                 const res = await social.listFriends({ userId: user.userId });
 
                 setFollowing(res.response.data);

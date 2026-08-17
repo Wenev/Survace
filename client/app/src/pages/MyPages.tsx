@@ -29,7 +29,6 @@ export default function MyPages() {
     setError(null);
     (async () => {
       try {
-        // Replace with your actual gRPC call to fetch user's pages
         const res = await brainrot.getUserVideo({ userId: user.userId });
         const data = res.response?.pages || [];
         setPages(

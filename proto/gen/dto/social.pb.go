@@ -1061,7 +1061,7 @@ type TypingNotification struct {
 	SenderId      int32                  `protobuf:"varint,1,opt,name=sender_id,json=senderId,proto3" json:"sender_id,omitempty"`
 	ReceiverId    int32                  `protobuf:"varint,2,opt,name=receiver_id,json=receiverId,proto3" json:"receiver_id,omitempty"`
 	IsTyping      bool                   `protobuf:"varint,3,opt,name=is_typing,json=isTyping,proto3" json:"is_typing,omitempty"`
-	RoomId        int64                  `protobuf:"varint,4,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"` // Added room_id field for private chat rooms
+	RoomId        int64                  `protobuf:"varint,4,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1129,7 +1129,7 @@ type UnsendNotification struct {
 	MessageId     int32                  `protobuf:"varint,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
 	SenderId      int32                  `protobuf:"varint,2,opt,name=sender_id,json=senderId,proto3" json:"sender_id,omitempty"`
 	ReceiverId    int32                  `protobuf:"varint,3,opt,name=receiver_id,json=receiverId,proto3" json:"receiver_id,omitempty"`
-	RoomId        int64                  `protobuf:"varint,4,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"` // Added room_id field for private chat rooms
+	RoomId        int64                  `protobuf:"varint,4,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

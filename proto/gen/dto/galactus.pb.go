@@ -922,7 +922,6 @@ func (x *FindByUsernameResponse) GetUser() *User {
 	return nil
 }
 
-// Setting messages
 type CreateSettingRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -1022,7 +1021,7 @@ func (x *EnableSettingRequest) GetEnable() bool {
 type EditChatRestrictionRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	UserId          int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	ChatRestriction string                 `protobuf:"bytes,2,opt,name=chat_restriction,json=chatRestriction,proto3" json:"chat_restriction,omitempty"` // friends, everyone, none
+	ChatRestriction string                 `protobuf:"bytes,2,opt,name=chat_restriction,json=chatRestriction,proto3" json:"chat_restriction,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }

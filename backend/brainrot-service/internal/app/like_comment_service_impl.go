@@ -55,10 +55,8 @@ func (s *LikeCommentServiceImpl) LikeComment(ctx context.Context, userId int32, 
 	}
 
 	helper.InvalidateLikeCommentCache(s.cache, userId, commentId)
-	// Invalidate the comments cache for the parent video as well
 	helper.InvalidateCommentCache(s.cache, comment.VideoID)
 
-	// Do NOT update like count cache here, just invalidate
 
 	return int32(codes.OK), "Comment liked successfully", nil
 }
@@ -94,16 +92,13 @@ func (s *LikeCommentServiceImpl) UnlikeComment(ctx context.Context, userId int32
 	}
 
 	helper.InvalidateLikeCommentCache(s.cache, userId, commentId)
-	// Invalidate the comments cache for the parent video as well
 	helper.InvalidateCommentCache(s.cache, comment.VideoID)
 
-	// Do NOT update like count cache here, just invalidate
 
 	return int32(codes.OK), "Comment unliked successfully", nil
 }
 
 func (s *LikeCommentServiceImpl) IsCommentLiked(ctx context.Context, userId int32, commentId int32) (bool, error) {
-	// Try cache by userId
 	var cachedByUser []*domain.LikeComment
 	userKey := fmt.Sprintf("likecomments:user:%d", userId)
 	if err := s.cache.Get(userKey, &cachedByUser); err == nil && cachedByUser != nil {
@@ -114,7 +109,6 @@ func (s *LikeCommentServiceImpl) IsCommentLiked(ctx context.Context, userId int3
 		}
 		return false, nil
 	}
-	// Try cache by commentId
 	var cachedByComment []*domain.LikeComment
 	commentKey := fmt.Sprintf("likecomments:comment:%d", commentId)
 	if err := s.cache.Get(commentKey, &cachedByComment); err == nil && cachedByComment != nil {

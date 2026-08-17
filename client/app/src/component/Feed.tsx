@@ -38,11 +38,6 @@ export default function VideoFeed({ activeVideoId, onVideoChange, searchQuery = 
     const [currentIndex, setCurrentIndex] = useState(0);
     const debouncedSearch = useDebounce(searchQuery, 400)
 
-        // const {data: VideoQuery, isLoading: VideoLoading, error: VideoError } = useVideoQuery(
-        //     "getRandomFeed",
-        //     {userId: user.userId, limit: 10, offset: 0}
-        // )
-
     const adVideo: VideoFeed = {
         id: -1,
         userId: 0,
@@ -78,7 +73,6 @@ export default function VideoFeed({ activeVideoId, onVideoChange, searchQuery = 
                 res = await brainrot.searchVideo({ query: debouncedSearch, threshold: 0.05, limit: 10, offset: reset ? 0 : page * 10 })
             } else if (user) {
                 res = await brainrot.getRandomFeed({ userId: user.userId, limit: 10, offset: reset ? 0 : page * 10 })
-                // console.log(VideoQuery?.response)
             } else {
                 res = await brainrot.getRandomFeedLoggedOut({ limit: 10, offset: reset ? 0 : page * 10 })
             }
@@ -161,7 +155,6 @@ export default function VideoFeed({ activeVideoId, onVideoChange, searchQuery = 
         const videoId = videos[currentIndex]?.id;
         if (videoId !== undefined) {
             onVideoChange(String(videoId));
-            // Scroll into view and sync traversal buttons
             const el = document.querySelector(`[data-video-id='${videoId}']`);
             if (el) {
                 el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -237,7 +230,7 @@ export default function VideoFeed({ activeVideoId, onVideoChange, searchQuery = 
                                 key={video.id}
                                 video={{
                                     ...video,
-                                    isPlaying: activeVideoId === String(video.id), // Use string comparison for activeVideoId
+                                    isPlaying: activeVideoId === String(video.id),
                                     thumbnailUrl: (video as any).thumbnailUrl || undefined,
                                     isLiked: video.isLiked ?? false
                                 }}
@@ -250,7 +243,6 @@ export default function VideoFeed({ activeVideoId, onVideoChange, searchQuery = 
                 )}
                 <div ref={loadingRef} className="loading-trigger" />
             </div>
-            {/* Up/Down buttons fixed on right */}
             <div className="traverse-btn-group">
                 <button
                     className="traverse-btn up"

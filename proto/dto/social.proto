@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-//option go_package = "github.com/Wenev/Survace/backend/social-service/internal/adapters/inbound/dto";
 option go_package = "github.com/Wenev/Survace/proto/gen/dto";
 import "google/protobuf/timestamp.proto";
 
@@ -110,14 +109,14 @@ message TypingNotification {
   int32 sender_id = 1;
   int32 receiver_id = 2;
   bool is_typing = 3;
-  int64 room_id = 4;  // Added room_id field for private chat rooms
+  int64 room_id = 4;
 }
 
 message UnsendNotification {
   int32 message_id = 1;
   int32 sender_id = 2;
   int32 receiver_id = 3;
-  int64 room_id = 4;  // Added room_id field for private chat rooms
+  int64 room_id = 4;
 }
 
 

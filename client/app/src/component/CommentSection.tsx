@@ -61,10 +61,9 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
                         text: c.content,
                         time: c.createdAt || "",
                         likes: c.likeCount || 0,
-                        isLiked: false, // will be set below
+                        isLiked: false,
                         replies: [],
                     })) || [];
-                    // Check isLiked for each comment using gRPC endpoint
                     await Promise.all(commentsFetched.map(async (c, idx) => {
                         const likedRes = await brainrot.isCommentLiked({ userId: user.userId, commentId: c.id });
                         commentsFetched[idx].isLiked = likedRes?.response?.liked === true;
@@ -102,14 +101,12 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
                 text: r.content,
                 time: r.createdAt || "",
                 likes: r.likeCount || 0,
-                isLiked: false, // will be set below
+                isLiked: false,
             })) || [];
-            // Check isLiked for each reply using gRPC endpoint
             await Promise.all(fetchedReplies.map(async (r, idx) => {
                 const likedRes = await brainrot.isReplyLiked({ userId: user.userId, replyId: r.id });
                 fetchedReplies[idx].isLiked = likedRes?.response?.liked === true;
             }));
-            // Fetch user info for each reply using galactus
             fetchedReplies = await Promise.all(fetchedReplies.map(async (r) => {
                 try {
                     const userRes = await galactus.findByUserId({ id: r.userId });
@@ -139,13 +136,11 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
         });
     };
 
-    // Refactored: always fetch latest like count for comment or reply after like/unlike
     const updateCommentLikeCount = async (commentId: number) => {
         if (!videoId) return;
         const res = await brainrot.getCommentsByVideo({ videoId: Number(videoId) });
         const updated = res?.response?.comments?.find((c: any) => c.id === commentId);
         if (!updated) return;
-        // Check isLiked for this comment
         let isLiked = false;
         if (user) {
             const likedRes = await brainrot.isCommentLiked({ userId: user.userId, commentId });
@@ -160,7 +155,6 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
         const res = await brainrot.getRepliesByComment({ commentId });
         const updated = res?.response?.replies?.find((r: any) => r.id === replyId);
         if (!updated) return;
-        // Check isLiked for this reply
         let isLiked = false;
         if (user) {
             const likedRes = await brainrot.isReplyLiked({ userId: user.userId, replyId });
@@ -180,10 +174,8 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
 
     const handleLikeComment = async (commentId: number) => {
         if (!user) return;
-        // Find the comment in state
         const comment = comments.find(c => c.id === commentId);
         if (!comment) return;
-        // Check backend like state
         const res = await brainrot.isCommentLiked({ userId: user.userId, commentId });
         console.log('isCommentLiked response:', res);
         const backendLiked = !!res.response?.liked;
@@ -204,12 +196,10 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
 
     const handleLikeReply = async (commentId: number, replyId: number) => {
         if (!user) return;
-        // Find the reply in state
         const comment = comments.find(c => c.id === commentId);
         if (!comment || !comment.replies) return;
         const reply = comment.replies.find(r => r.id === replyId);
         if (!reply) return;
-        // Check backend like state
         const res = await brainrot.isReplyLiked({ userId: user.userId, replyId });
         console.log('isReplyLiked response:', res);
         const backendLiked = !!res.response?.liked;
@@ -296,12 +286,10 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
         }
     }
 
-    // Helper to render rich text for comments/replies
     const renderRichText = (text: string) => (
         <RichText value={text} placeholder="" />
     );
 
-    // Handler for RichText input change
     const handleRichTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewComment(e.target.value);
     };
@@ -344,7 +332,6 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
                                     <span className="username" style={{fontWeight: 700, fontSize: 15}}>{comment.username}</span>
                                     <span className="comment-time" style={{color: 'var(--color-text-secondary)', fontSize: 12}}>{comment.time}</span>
                                 </div>
-                                {/* Use RichText for comment text */}
                                 <div className="comment-text" style={{fontSize: 15, margin: 0, color: 'var(--color-text)'}}>
                                     {renderRichText(comment.text)}
                                 </div>
@@ -399,7 +386,6 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
                                                                 <span className="username" style={{fontWeight: 600, fontSize: 14}}>{reply.username}</span>
                                                                 <span className="comment-time" style={{color: 'var(--color-text-secondary)', fontSize: 12}}>{reply.time}</span>
                                                             </div>
-                                                            {/* Use RichText for reply text */}
                                                             <div className="comment-text" style={{fontSize: 14, margin: 0, color: 'var(--color-text)'}}>
                                                                 {renderRichText(reply.text)}
                                                             </div>
@@ -432,10 +418,6 @@ export default function CommentsSection({ isOpen, onClose, videoId }: CommentsSe
                 <RichText
                     value={newComment}
                     placeholder={replyingTo ? "Reply..." : "Add comment..."}
-                    // Pass input change handler to RichText
-                    // RichText must accept onChange and call it from its input
-                    // If not, add onChange prop to RichText and wire it to input
-                    // Example: <input ... onChange={onChange} />
                     onChange={handleRichTextChange}
                 />
                 <button className="send-comment" onClick={handleAddComment}>

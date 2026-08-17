@@ -15,7 +15,6 @@ import (
 )
 
 func main() {
-	// Load .env file
 	if err := godotenv.Load(); err != nil {
 		log.Println("Warning: .env file not found, using environment variables")
 	}
@@ -33,7 +32,6 @@ func main() {
 	chatRepo := repository.NewStreamChatRepository(db)
 	chatService := app.NewStreamChatService(chatRepo)
 
-	// Create stream service with API credentials
 	streamService := app.NewStreamService(cacheConn)
 
 	port, err := strconv.Atoi(os.Getenv("PORT_STREAM"))

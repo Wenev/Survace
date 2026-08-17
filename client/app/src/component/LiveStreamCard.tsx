@@ -2,7 +2,6 @@ import { StreamVideo, StreamCall, useCallStateHooks, ParticipantView, useCall } 
 import { useGrpc } from "../context/ClientContext";
 import { useEffect, useState } from "react";
 
-// Define LiveStream type locally, do not export
 interface LiveStream {
   callId: string;
   title?: string;

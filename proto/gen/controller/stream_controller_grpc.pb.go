@@ -34,17 +34,11 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StreamServiceClient interface {
 	StreamChat(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[dto.StreamChatMessage, dto.StreamChatMessage], error)
-	// Get a Stream JWT token for a user (streamer)
 	GetStreamToken(ctx context.Context, in *dto.GetStreamTokenRequest, opts ...grpc.CallOption) (*dto.GetStreamTokenResponse, error)
-	// Fetch the stream id for a user if live (viewer)
 	GetLiveStreamId(ctx context.Context, in *dto.GetLiveStreamIdRequest, opts ...grpc.CallOption) (*dto.GetLiveStreamIdResponse, error)
-	// Check if a specific user is live
 	IsUserLive(ctx context.Context, in *dto.IsUserLiveRequest, opts ...grpc.CallOption) (*dto.IsUserLiveResponse, error)
-	// Go Live for user live check
 	GoLive(ctx context.Context, in *dto.GoLiveRequest, opts ...grpc.CallOption) (*dto.GoLiveResponse, error)
-	// Stop a live stream for a user
 	StopLive(ctx context.Context, in *dto.StopLiveRequest, opts ...grpc.CallOption) (*dto.StopLiveResponse, error)
-	// List all current live streams
 	ListLiveStreams(ctx context.Context, in *dto.ListLiveStreamsRequest, opts ...grpc.CallOption) (*dto.ListLiveStreamsResponse, error)
 }
 
@@ -134,17 +128,11 @@ func (c *streamServiceClient) ListLiveStreams(ctx context.Context, in *dto.ListL
 // for forward compatibility.
 type StreamServiceServer interface {
 	StreamChat(grpc.BidiStreamingServer[dto.StreamChatMessage, dto.StreamChatMessage]) error
-	// Get a Stream JWT token for a user (streamer)
 	GetStreamToken(context.Context, *dto.GetStreamTokenRequest) (*dto.GetStreamTokenResponse, error)
-	// Fetch the stream id for a user if live (viewer)
 	GetLiveStreamId(context.Context, *dto.GetLiveStreamIdRequest) (*dto.GetLiveStreamIdResponse, error)
-	// Check if a specific user is live
 	IsUserLive(context.Context, *dto.IsUserLiveRequest) (*dto.IsUserLiveResponse, error)
-	// Go Live for user live check
 	GoLive(context.Context, *dto.GoLiveRequest) (*dto.GoLiveResponse, error)
-	// Stop a live stream for a user
 	StopLive(context.Context, *dto.StopLiveRequest) (*dto.StopLiveResponse, error)
-	// List all current live streams
 	ListLiveStreams(context.Context, *dto.ListLiveStreamsRequest) (*dto.ListLiveStreamsResponse, error)
 	mustEmbedUnimplementedStreamServiceServer()
 }

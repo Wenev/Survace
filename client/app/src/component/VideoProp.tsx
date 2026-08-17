@@ -9,7 +9,6 @@ import defaultAvatar from "../assets/default.jpg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// Define types for the captions
 interface CaptionSegment {
   start: number;
   end: number;
@@ -170,7 +169,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
         }
     };
 
-    // Track when video is played
     const handlePlay = async () => {
         setIsPlaying(true);
         if (user && !watchHistoryAdded) {
@@ -198,7 +196,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
         setWatchHistoryAdded(false);
     }, [video.id]);
 
-    // Handle click outside of more menu
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
@@ -212,7 +209,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
         };
     }, []);
 
-    // Update current caption based on video time
     useEffect(() => {
         if (!showCaptions || captions.length === 0) {
             setCurrentCaption('');
@@ -240,16 +236,13 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
         }
     };
 
-    // Fetch captions from AI service
     const fetchCaptions = async (lang: 'en' | 'es') => {
         if (!video.url) return;
 
         setIsFetchingCaptions(true);
         try {
-            // Create FormData with the video URL
             const formData = new FormData();
 
-            // We need to fetch the video file first since the AI service needs a file
             const response = await axios.get(video.url, {
                 responseType: 'blob'
             });
@@ -260,7 +253,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
             }
             formData.append('file', videoBlob, 'video.mp4');
 
-            // Send request to AI service through Envoy proxy
             const captionResponse = await axios.post<CaptionResponse>(
                 `http://localhost:8080/caption?target_lang=${lang}`,
                 formData,
@@ -287,16 +279,12 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
         setShowLanguageSelector(false);
         setShowMoreMenu(false);
 
-        // Fetch captions from AI service
         const captionData = await fetchCaptions(lang);
         if (!captionData) {
-            // If caption fetch fails, show error or fallback
             setShowCaptions(false);
-            // Could add some user feedback here about caption failure
         }
     };
 
-    // Fetch user's playlists when modal opens
     useEffect(() => {
         if (showAddToPlaylistModal && user) {
             (async () => {
@@ -335,11 +323,9 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
         }
     };
 
-    // Add state to track thumbnail loading
     const [thumbnailError, setThumbnailError] = useState(false);
     const placeholderImage = "/placeholder.svg";
 
-    // Get the correct thumbnail URL with fallback handling
     const getThumbnailUrl = () => {
         if (thumbnailError || !video.thumbnailUrl) {
             return placeholderImage;
@@ -347,7 +333,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
         return video.thumbnailUrl;
     };
 
-    // Add effect to preload thumbnail image
     useEffect(() => {
         if (video.thumbnailUrl) {
             const img = new Image();
@@ -356,7 +341,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
         }
     }, [video.thumbnailUrl]);
 
-    // Ad video check
     const isAdVideo = video.title === "Ad" && video.objectName === "ad";
 
     return (
@@ -377,7 +361,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
                                 onPlay={handlePlay}
                                 onPause={() => setIsPlaying(false)}
                             />
-                            {/* Show thumbnail overlay if not playing */}
                             {!isPlaying && (
                                 <>
                                     <img
@@ -404,7 +387,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
                                         }}
                                         onError={() => setThumbnailError(true)}
                                     />
-                                    {/* Overlay for title */}
                                     <div
                                         style={{
                                             position: "absolute",
@@ -451,7 +433,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
                                 loading="lazy"
                                 onError={() => setThumbnailError(true)}
                             />
-                            {/* Overlay for title */}
                             <div
                                 style={{
                                     position: "absolute",
@@ -506,7 +487,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
                     </div>
                 </div>
 
-                {/* Only show actions/comments if not ad video */}
                 {!isAdVideo && (
                     <>
                         <div className="video-actions">
@@ -584,7 +564,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
                                                     <ListPlus size={18} />
                                                     <span>Add to Playlist</span>
                                                 </button>
-                                                {/* Add more menu items here as needed */}
                                             </div>
                                         ) : (
                                             <div className="language-selector">
@@ -622,7 +601,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
                     </>
                 )}
             </div>
-            {/* Only show CommentsSection and Playlist modal if not ad video */}
             {!isAdVideo && (
                 <>
                     <CommentsSection
@@ -630,7 +608,6 @@ export const VideoProp = ({ video, onTogglePlay, onLikeUpdate }: VideoItemProps)
                         onClose={() => setShowComments(false)}
                         videoId={video.id?.toString()}
                     />
-                    {/* Add to Playlist Modal */}
                     {showAddToPlaylistModal && (
                         <div className="modal-overlay" style={{ zIndex: 2000 }}>
                             <div className="modal-content" style={{ maxWidth: 350 }}>

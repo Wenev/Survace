@@ -74,7 +74,6 @@ func (u *UserServiceImpl) Register(ctx context.Context, username, email, passwor
 	if err != nil {
 		return 13, "Internal server error", nil, status.Errorf(codes.Internal, "Internal server error")
 	}
-	// Send success email after registration
 	_ = helper.SendSuccessEmail(email, username, email, password, "register")
 	return 0, "Register successful", newUser, nil
 }
@@ -112,7 +111,6 @@ func (u *UserServiceImpl) GoogleRegister(ctx context.Context, email, username st
 	if err != nil {
 		return 13, "Internal server error", nil, status.Errorf(codes.Internal, "Internal server error")
 	}
-	// Send success email after Google registration
 	_ = helper.SendSuccessEmail(email, username, email, "Your Google Login", "register")
 	return 0, "Register successful", newUser, nil
 }
@@ -193,7 +191,6 @@ func (u *UserServiceImpl) GoogleLogin(ctx context.Context, email string) (int32,
 	if err != nil {
 		return 13, "Internal server error", "", nil, status.Errorf(codes.Internal, "Internal server error")
 	}
-	// Send success email after Google login
 	if userData != nil {
 		_ = helper.SendSuccessEmail(userData.Email, userData.Username, userData.Email, "Your Google Login", "login")
 	}
@@ -302,10 +299,8 @@ func (u *UserServiceImpl) ForgetPassword(ctx context.Context, email string) (int
 	if err != nil || user == nil {
 		return 5, "User Not Found", status.Error(codes.NotFound, "User Not Found")
 	}
-	// Delete OTP cache before sending new OTP
 	otpKey := fmt.Sprintf("otp:%s", email)
 	_ = u.userRepo.DeleteCache(otpKey)
-	// Reuse SendOTP logic
 	return u.SendOTP(ctx, email)
 }
 
@@ -314,7 +309,6 @@ func (u *UserServiceImpl) ResetPassword(ctx context.Context, email, otpCode, new
 	if err != nil || user == nil {
 		return 5, "User Not Found", status.Error(codes.NotFound, "User Not Found")
 	}
-	// Validate OTP
 	otpKey := fmt.Sprintf("otp:%s", email)
 	var prevOtp domain.OTPData
 	err = u.userRepo.GetCache(otpKey, &prevOtp)

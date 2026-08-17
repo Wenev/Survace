@@ -37,7 +37,7 @@ func (s *StreamServiceImpl) GetStreamToken(ctx context.Context, userId string) (
 
 	claims := jwt.MapClaims{
 		"user_id": userId,
-		"exp":     time.Now().Add(time.Hour * 24).Unix(), // 24h expiry
+		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 		"iat":     time.Now().Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -107,7 +107,6 @@ func (s *StreamServiceImpl) GoLive(ctx context.Context, userId string, callId st
 	if err != nil {
 		return int32(codes.Internal), "failed to cache live status", err
 	}
-	// Add userId to live_users set
 	var userIds []string
 	err = s.cache.Get("live_users", &userIds)
 	if err == memcache.ErrCacheMiss {
