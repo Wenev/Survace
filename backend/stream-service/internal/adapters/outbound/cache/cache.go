@@ -2,6 +2,7 @@ package cache
 
 import (
 	"encoding/json"
+	"github.com/Wenev/Survace/stream-service/ports/out"
 	"github.com/bradfitz/gomemcache/memcache"
 	"log"
 	"os"
@@ -11,6 +12,8 @@ import (
 type MemcachedConnection struct {
 	client *memcache.Client
 }
+
+var _ out.CacheRepository = (*MemcachedConnection)(nil)
 
 func NewMemcachedConnection(serverAddress ...string) *MemcachedConnection {
 	return &MemcachedConnection{
@@ -42,6 +45,9 @@ func (m *MemcachedConnection) Set(key string, value interface{}, expiration time
 
 func (m *MemcachedConnection) Get(key string, dest interface{}) error {
 	item, err := m.client.Get(key)
+	if err == memcache.ErrCacheMiss {
+		return out.ErrCacheMiss
+	}
 	if err != nil {
 		return err
 	}
@@ -51,5 +57,9 @@ func (m *MemcachedConnection) Get(key string, dest interface{}) error {
 }
 
 func (m *MemcachedConnection) Delete(key string) error {
-	return m.client.Delete(key)
+	err := m.client.Delete(key)
+	if err == memcache.ErrCacheMiss {
+		return out.ErrCacheMiss
+	}
+	return err
 }

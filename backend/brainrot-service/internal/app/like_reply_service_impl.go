@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"errors"
-	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/helper"
 	"github.com/Wenev/Survace/brainrot-service/ports/out"
@@ -12,13 +11,13 @@ import (
 
 type LikeReplyServiceImpl struct {
 	repo  out.LikeReplyRepository
-	cache *cache.MemcachedConnection
+	cache out.CacheRepository
 }
 
-func NewLikeReplyService(repo out.LikeReplyRepository) *LikeReplyServiceImpl {
+func NewLikeReplyService(repo out.LikeReplyRepository, cache out.CacheRepository) *LikeReplyServiceImpl {
 	return &LikeReplyServiceImpl{
 		repo:  repo,
-		cache: cache.CacheConnection(),
+		cache: cache,
 	}
 }
 
@@ -38,7 +37,8 @@ func (s *LikeReplyServiceImpl) LikeReply(ctx context.Context, replyId int32, use
 	if err != nil {
 		return int32(codes.Internal), "Failed to like reply", err
 	}
-	helper.InvalidateLikeReplyCache(s.cache, userId, replyId)
+	helper.InvalidateEntityCache(s.cache, "likereplies:user", userId)
+	helper.InvalidateEntityCache(s.cache, "likereplies:reply", replyId)
 	return int32(codes.OK), "Reply liked successfully", nil
 }
 
@@ -47,7 +47,8 @@ func (s *LikeReplyServiceImpl) UnlikeReply(ctx context.Context, replyId int32, u
 	if err != nil {
 		return int32(codes.Internal), "Failed to unlike reply", err
 	}
-	helper.InvalidateLikeReplyCache(s.cache, userId, replyId)
+	helper.InvalidateEntityCache(s.cache, "likereplies:user", userId)
+	helper.InvalidateEntityCache(s.cache, "likereplies:reply", replyId)
 	return int32(codes.OK), "Reply unliked successfully", nil
 }
 

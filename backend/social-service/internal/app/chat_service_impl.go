@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Wenev/Survace/backend/social-service/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/backend/social-service/internal/app/domain"
 	"github.com/Wenev/Survace/backend/social-service/ports/in"
 	"github.com/Wenev/Survace/backend/social-service/ports/out"
@@ -14,10 +13,10 @@ import (
 
 type ChatServiceImpl struct {
 	chatRepo out.ChatRepository
-	cache    *cache.MemcachedConnection
+	cache    out.CacheRepository
 }
 
-func NewChatService(chatRepo out.ChatRepository, cacheConn *cache.MemcachedConnection) in.ChatService {
+func NewChatService(chatRepo out.ChatRepository, cacheConn out.CacheRepository) in.ChatService {
 	return &ChatServiceImpl{
 		chatRepo: chatRepo,
 		cache:    cacheConn,

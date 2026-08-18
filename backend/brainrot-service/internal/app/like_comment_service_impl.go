@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/helper"
 	"github.com/Wenev/Survace/brainrot-service/ports/out"
@@ -15,14 +14,14 @@ import (
 type LikeCommentServiceImpl struct {
 	likeCommentRepo out.LikeCommentRepository
 	commentRepo     out.CommentRepository
-	cache           *cache.MemcachedConnection
+	cache           out.CacheRepository
 }
 
-func NewLikeCommentService(likeCommentRepo out.LikeCommentRepository, commentRepo out.CommentRepository) *LikeCommentServiceImpl {
+func NewLikeCommentService(likeCommentRepo out.LikeCommentRepository, commentRepo out.CommentRepository, cache out.CacheRepository) *LikeCommentServiceImpl {
 	return &LikeCommentServiceImpl{
 		likeCommentRepo: likeCommentRepo,
 		commentRepo:     commentRepo,
-		cache:           cache.CacheConnection(),
+		cache:           cache,
 	}
 }
 
@@ -54,9 +53,9 @@ func (s *LikeCommentServiceImpl) LikeComment(ctx context.Context, userId int32, 
 		return int32(codes.Internal), "Failed to like comment", err
 	}
 
-	helper.InvalidateLikeCommentCache(s.cache, userId, commentId)
-	helper.InvalidateCommentCache(s.cache, comment.VideoID)
-
+	helper.InvalidateEntityCache(s.cache, "likecomments:user", userId)
+	helper.InvalidateEntityCache(s.cache, "likecomments:comment", commentId)
+	helper.InvalidateEntityCache(s.cache, "comments:video", comment.VideoID)
 
 	return int32(codes.OK), "Comment liked successfully", nil
 }
@@ -91,9 +90,9 @@ func (s *LikeCommentServiceImpl) UnlikeComment(ctx context.Context, userId int32
 		return int32(codes.Internal), "Failed to unlike comment", err
 	}
 
-	helper.InvalidateLikeCommentCache(s.cache, userId, commentId)
-	helper.InvalidateCommentCache(s.cache, comment.VideoID)
-
+	helper.InvalidateEntityCache(s.cache, "likecomments:user", userId)
+	helper.InvalidateEntityCache(s.cache, "likecomments:comment", commentId)
+	helper.InvalidateEntityCache(s.cache, "comments:video", comment.VideoID)
 
 	return int32(codes.OK), "Comment unliked successfully", nil
 }

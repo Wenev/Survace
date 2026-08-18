@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/Wenev/Survace/brainrot-service/internal/adapters/inbound/grpc"
-	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/helper"
 	"github.com/Wenev/Survace/brainrot-service/ports/out"
@@ -21,7 +20,7 @@ type VideoServiceImpl struct {
 	watchHistoryRepo  out.WatchHistoryRepository
 	playlistRepo      out.PlaylistRepository
 	playlistVideoRepo out.PlaylistVideoRepository
-	cache             *cache.MemcachedConnection
+	cache             out.CacheRepository
 	SocialClient      *grpc.SocialClient
 }
 
@@ -32,7 +31,8 @@ func NewVideoService(
 	watchHistoryRepo out.WatchHistoryRepository,
 	playlistRepo out.PlaylistRepository,
 	playlistVideoRepo out.PlaylistVideoRepository,
-	socialClient *grpc.SocialClient) *VideoServiceImpl {
+	socialClient *grpc.SocialClient,
+	cache out.CacheRepository) *VideoServiceImpl {
 	return &VideoServiceImpl{
 		videoRepo:         videoRepo,
 		likeRepo:          likeRepo,
@@ -40,12 +40,12 @@ func NewVideoService(
 		watchHistoryRepo:  watchHistoryRepo,
 		playlistRepo:      playlistRepo,
 		playlistVideoRepo: playlistVideoRepo,
-		cache:             cache.CacheConnection(),
+		cache:             cache,
 		SocialClient:      socialClient,
 	}
 }
 
-func invalidateSearchCache(c *cache.MemcachedConnection) {
+func invalidateSearchCache(c out.CacheRepository) {
 	const versionKey = "search:video:version"
 	var version int64
 	if err := c.Get(versionKey, &version); err == nil {

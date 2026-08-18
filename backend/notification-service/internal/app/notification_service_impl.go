@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Wenev/Survace/notification-service/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/notification-service/internal/app/domain"
 	"github.com/Wenev/Survace/notification-service/ports/in"
 	"github.com/Wenev/Survace/notification-service/ports/out"
@@ -13,15 +12,19 @@ import (
 
 type NotificationServiceImpl struct {
 	repo  out.NotificationRepository
-	cache *cache.MemcachedConnection
+	cache out.CacheRepository
 }
 
-func NewNotificationService(repo out.NotificationRepository, cacheConn *cache.MemcachedConnection) in.NotificationService {
+func NewNotificationService(repo out.NotificationRepository, cacheConn out.CacheRepository) in.NotificationService {
 	return &NotificationServiceImpl{repo: repo, cache: cacheConn}
 }
 
+func notificationCacheKey(userID int32) string {
+	return fmt.Sprintf("notifications:user:%d", userID)
+}
+
 func (s *NotificationServiceImpl) GetNotificationsByUserID(ctx context.Context, userID int32) (int32, string, []*domain.Notification, error) {
-	cacheKey := fmt.Sprintf("notifications:user:%d", userID)
+	cacheKey := notificationCacheKey(userID)
 	var notifs []*domain.Notification
 	err := s.cache.Get(cacheKey, &notifs)
 	if err == nil && notifs != nil {
@@ -44,8 +47,7 @@ func (s *NotificationServiceImpl) MarkAsRead(ctx context.Context, notificationID
 	if err := s.repo.Update(ctx, notification); err != nil {
 		return int32(codes.Internal), "Failed to mark notification as read", err
 	}
-	cacheKey := fmt.Sprintf("notifications:user:%d", notification.UserID)
-	_ = s.cache.Delete(cacheKey)
+	_ = s.cache.Delete(notificationCacheKey(notification.UserID))
 	return int32(codes.OK), "Notification marked as read", nil
 }
 
@@ -58,17 +60,16 @@ func (s *NotificationServiceImpl) MarkAsUnread(ctx context.Context, notification
 	if err := s.repo.Update(ctx, notification); err != nil {
 		return int32(codes.Internal), "Failed to mark notification as unread", err
 	}
-	cacheKey := fmt.Sprintf("notifications:user:%d", notification.UserID)
-	_ = s.cache.Delete(cacheKey)
+	_ = s.cache.Delete(notificationCacheKey(notification.UserID))
 	return int32(codes.OK), "Notification marked as unread", nil
 }
 
 func (s *NotificationServiceImpl) DeleteNotification(ctx context.Context, notificationID int32) (int32, string, error) {
 	notification, err := s.repo.FindByID(ctx, notificationID)
-	if err == nil {
-		cacheKey := fmt.Sprintf("notifications:user:%d", notification.UserID)
-		_ = s.cache.Delete(cacheKey)
+	if err != nil {
+		return int32(codes.NotFound), "Notification not found", err
 	}
+	_ = s.cache.Delete(notificationCacheKey(notification.UserID))
 	if err := s.repo.Delete(ctx, notificationID); err != nil {
 		return int32(codes.Internal), "Failed to delete notification", err
 	}
@@ -79,8 +80,7 @@ func (s *NotificationServiceImpl) DeleteAllNotificationsByUserID(ctx context.Con
 	if err := s.repo.DeleteAllByUserID(ctx, userID); err != nil {
 		return int32(codes.Internal), "Failed to delete all notifications for user", err
 	}
-	cacheKey := fmt.Sprintf("notifications:user:%d", userID)
-	_ = s.cache.Delete(cacheKey)
+	_ = s.cache.Delete(notificationCacheKey(userID))
 	return int32(codes.OK), "All notifications deleted for user", nil
 }
 
@@ -91,7 +91,6 @@ func (s *NotificationServiceImpl) CreateNotification(ctx context.Context, notif 
 	if err := s.repo.Create(ctx, notif); err != nil {
 		return int32(codes.Internal), "Failed to create notification", err
 	}
-	cacheKey := fmt.Sprintf("notifications:user:%d", notif.UserID)
-	s.cache.Delete(cacheKey)
+	_ = s.cache.Delete(notificationCacheKey(notif.UserID))
 	return int32(codes.OK), "Notification created successfully", nil
 }

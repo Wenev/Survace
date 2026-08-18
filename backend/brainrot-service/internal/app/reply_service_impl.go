@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/helper"
 	"github.com/Wenev/Survace/brainrot-service/ports/out"
@@ -15,11 +14,11 @@ import (
 type ReplyServiceImpl struct {
 	repo          out.ReplyRepository
 	likeReplyRepo out.LikeReplyRepository
-	cache         *cache.MemcachedConnection
+	cache         out.CacheRepository
 }
 
-func NewReplyService(repo out.ReplyRepository, likeReplyRepo out.LikeReplyRepository) *ReplyServiceImpl {
-	return &ReplyServiceImpl{repo: repo, likeReplyRepo: likeReplyRepo, cache: cache.CacheConnection()}
+func NewReplyService(repo out.ReplyRepository, likeReplyRepo out.LikeReplyRepository, cache out.CacheRepository) *ReplyServiceImpl {
+	return &ReplyServiceImpl{repo: repo, likeReplyRepo: likeReplyRepo, cache: cache}
 }
 
 func (s *ReplyServiceImpl) AddReply(ctx context.Context, userId int32, commentId int32, text string) (int32, string, error) {
@@ -35,7 +34,7 @@ func (s *ReplyServiceImpl) AddReply(ctx context.Context, userId int32, commentId
 	if err != nil {
 		return int32(codes.Internal), "Failed to add reply", err
 	}
-	helper.InvalidateReplyCache(s.cache, commentId)
+	helper.InvalidateEntityCache(s.cache, "replies:comment", commentId)
 	return int32(codes.OK), "Reply added successfully", nil
 }
 
@@ -77,7 +76,7 @@ func (s *ReplyServiceImpl) DeleteReply(ctx context.Context, replyId int32) (int3
 		return int32(codes.Internal), "Failed to delete reply", err
 	}
 	if commentId != 0 {
-		helper.InvalidateReplyCache(s.cache, commentId)
+		helper.InvalidateEntityCache(s.cache, "replies:comment", commentId)
 	}
 	return int32(codes.OK), "Reply deleted successfully", nil
 }

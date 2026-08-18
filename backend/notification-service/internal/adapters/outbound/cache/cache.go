@@ -2,6 +2,7 @@ package cache
 
 import (
 	"encoding/json"
+	"github.com/Wenev/Survace/notification-service/ports/out"
 	"github.com/bradfitz/gomemcache/memcache"
 	"os"
 	"time"
@@ -10,6 +11,8 @@ import (
 type MemcachedConnection struct {
 	client *memcache.Client
 }
+
+var _ out.CacheRepository = (*MemcachedConnection)(nil)
 
 func NewMemcachedConnection(serverAddress ...string) *MemcachedConnection {
 	return &MemcachedConnection{

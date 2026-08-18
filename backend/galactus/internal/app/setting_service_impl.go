@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Wenev/Survace/galactus/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/galactus/internal/app/domain"
 	"github.com/Wenev/Survace/galactus/internal/ports/out"
 	"google.golang.org/grpc/codes"
@@ -13,10 +12,10 @@ import (
 type SettingServiceImpl struct {
 	repo     out.SettingRepository
 	userRepo out.UserRespository
-	cache    *cache.MemcachedConnection
+	cache    out.CacheRepository
 }
 
-func NewSettingService(repo out.SettingRepository, userRepo out.UserRespository, cache *cache.MemcachedConnection) *SettingServiceImpl {
+func NewSettingService(repo out.SettingRepository, userRepo out.UserRespository, cache out.CacheRepository) *SettingServiceImpl {
 	return &SettingServiceImpl{repo: repo, userRepo: userRepo, cache: cache}
 }
 

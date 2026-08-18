@@ -3,8 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Wenev/Survace/stream-service/internal/adapters/outbound/cache"
-	"github.com/bradfitz/gomemcache/memcache"
+	"github.com/Wenev/Survace/stream-service/ports/out"
 	"github.com/golang-jwt/jwt/v5"
 	"math/rand"
 	"os"
@@ -14,10 +13,10 @@ import (
 )
 
 type StreamServiceImpl struct {
-	cache *cache.MemcachedConnection
+	cache out.CacheRepository
 }
 
-func NewStreamService(cacheConn *cache.MemcachedConnection) *StreamServiceImpl {
+func NewStreamService(cacheConn out.CacheRepository) *StreamServiceImpl {
 	return &StreamServiceImpl{
 		cache: cacheConn,
 	}
@@ -57,7 +56,7 @@ func (s *StreamServiceImpl) GetLiveStreamId(ctx context.Context, userId string) 
 	key := fmt.Sprintf("live:%s", userId)
 	var callId string
 	err := s.cache.Get(key, &callId)
-	if err == memcache.ErrCacheMiss {
+	if err == out.ErrCacheMiss {
 		return int32(codes.NotFound), "user is not live", "", false, nil
 	} else if err != nil {
 		return int32(codes.Internal), "cache error", "", false, err
@@ -72,7 +71,7 @@ func (s *StreamServiceImpl) IsUserLive(ctx context.Context, userId string) (bool
 	key := fmt.Sprintf("live:%s", userId)
 	var callId string
 	err := s.cache.Get(key, &callId)
-	if err == memcache.ErrCacheMiss {
+	if err == out.ErrCacheMiss {
 		return false, nil
 	} else if err != nil {
 		return false, err
@@ -84,7 +83,7 @@ func (s *StreamServiceImpl) ListLiveStreams(ctx context.Context) ([]struct{ User
 	var result []struct{ UserId, CallId string }
 	var userIds []string
 	err := s.cache.Get("live_users", &userIds)
-	if err != nil && err != memcache.ErrCacheMiss {
+	if err != nil && err != out.ErrCacheMiss {
 		return nil, err
 	}
 	for _, userId := range userIds {
@@ -109,7 +108,7 @@ func (s *StreamServiceImpl) GoLive(ctx context.Context, userId string, callId st
 	}
 	var userIds []string
 	err = s.cache.Get("live_users", &userIds)
-	if err == memcache.ErrCacheMiss {
+	if err == out.ErrCacheMiss {
 		userIds = []string{}
 	} else if err != nil {
 		return int32(codes.Internal), "failed to update live users", err
@@ -137,7 +136,7 @@ func (s *StreamServiceImpl) StopLive(ctx context.Context, userId string) (int32,
 	}
 	key := fmt.Sprintf("live:%s", userId)
 	err := s.cache.Delete(key)
-	if err != nil && err != memcache.ErrCacheMiss {
+	if err != nil && err != out.ErrCacheMiss {
 		return int32(codes.Internal), "failed to delete live status", err
 	}
 	var userIds []string

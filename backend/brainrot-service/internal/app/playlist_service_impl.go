@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Wenev/Survace/brainrot-service/internal/adapters/outbound/cache"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/domain"
 	"github.com/Wenev/Survace/brainrot-service/internal/app/helper"
 	"github.com/Wenev/Survace/brainrot-service/ports/out"
@@ -15,18 +14,19 @@ import (
 type PlaylistServiceImpl struct {
 	playlistRepo out.PlaylistRepository
 	videoRepo    out.VideoRepository
-	cache        *cache.MemcachedConnection
+	cache        out.CacheRepository
 }
 
 func NewPlaylistService(
 	playlistRepo out.PlaylistRepository,
 	_ out.PlaylistVideoRepository,
 	videoRepo out.VideoRepository,
+	cache out.CacheRepository,
 ) *PlaylistServiceImpl {
 	return &PlaylistServiceImpl{
 		playlistRepo: playlistRepo,
 		videoRepo:    videoRepo,
-		cache:        cache.CacheConnection(),
+		cache:        cache,
 	}
 }
 
@@ -44,7 +44,7 @@ func (s *PlaylistServiceImpl) CreatePlaylist(ctx context.Context, userId int32, 
 	if err != nil {
 		return int32(codes.Internal), "Failed to create playlist", nil, err
 	}
-	helper.InvalidatePlaylistCache(s.cache, userId)
+	helper.InvalidateEntityCache(s.cache, "playlist:user", userId)
 	return int32(codes.OK), "Playlist created successfully", playlist, nil
 }
 
@@ -65,7 +65,7 @@ func (s *PlaylistServiceImpl) DeletePlaylist(ctx context.Context, playlistId int
 	if err != nil {
 		return int32(codes.Internal), "Failed to delete playlist", err
 	}
-	helper.InvalidatePlaylistCache(s.cache, userId)
+	helper.InvalidateEntityCache(s.cache, "playlist:user", userId)
 	return int32(codes.OK), "Playlist deleted successfully", nil
 }
 
@@ -206,7 +206,7 @@ func (s *PlaylistServiceImpl) ReorderVideo(ctx context.Context, playlistId int32
 	if err != nil {
 		return int32(codes.Internal), "Failed to reorder video", err
 	}
-	helper.InvalidatePlaylistCache(s.cache, playlist.UserID)
+	helper.InvalidateEntityCache(s.cache, "playlist:user", playlist.UserID)
 	return int32(codes.OK), "Video reordered successfully", nil
 }
 
@@ -226,6 +226,6 @@ func (s *PlaylistServiceImpl) UpdatePlaylistTitle(ctx context.Context, playlistI
 	if err != nil {
 		return int32(13), "Failed to update playlist title", err
 	}
-	helper.InvalidatePlaylistCache(s.cache, playlist.UserID)
+	helper.InvalidateEntityCache(s.cache, "playlist:user", playlist.UserID)
 	return int32(0), "Playlist title updated successfully", nil
 }
